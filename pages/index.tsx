@@ -1,8 +1,6 @@
-import { useLogin } from "@privy-io/react-auth";
 import { PrivyClient } from "@privy-io/server-auth";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import Hero from "../components/landing/hero";
 import { Navbar } from "../components/navbar/navbar";
 
@@ -21,7 +19,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
     return {
       props: {},
-      redirect: { destination: "/explore", permanent: false },
+      redirect: { destination: "/", permanent: false },
     };
   } catch (error) {
     return { props: {} };
@@ -29,24 +27,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 };
 
 export default function LoginPage() {
-  const router = useRouter();
-  const { login } = useLogin({
-    onComplete: () => router.push("/dashboard"),
-  });
 
   return (
     <>
       <Head>
         <title>🎤 Vox</title>
       </Head>
-      <div className="flex justify-center">
-        <button
-          className="bg-violet-600 hover:bg-violet-700 py-3 px-6 text-white rounded-lg"
-          onClick={login}
-        >
-          Log in
-        </button>
-      </div>
+
       <main className="w-full h-screen flex justify-center">
         <div className="max-w-6xl w-full">
           <div className="fixed top-8 left-1/2 transform -translate-x-1/2 z-20">

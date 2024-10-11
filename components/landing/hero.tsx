@@ -3,11 +3,14 @@ import { HeroCard } from "../cards/hero-card";
 import { hero } from "../../utils/content";
 import GradientButton from "../buttons/gradient-button";
 import ImageSlider from "../cards/slider";
+import { useRouter } from "next/router";
+import { useLogin } from "@privy-io/react-auth";
 
 const Hero = () => {
-  const handleButtonClick = () => {
-    console.log("Button clicked!");
-  };
+  const router = useRouter();
+  const { login } = useLogin({
+    onComplete: () => router.push("/dashboard"),
+  });
 
   return (
     <div className="relative w-full h-[90%] border-t-2 border-black/10">
@@ -29,8 +32,8 @@ const Hero = () => {
           </div>
           <div>
             <GradientButton
-              label="Explore Trending Events"
-              onClick={handleButtonClick}
+              label="Login"
+              onClick={login}
             />
           </div>
         </div>
