@@ -14,7 +14,7 @@ const ExploreCard: React.FC<ExploreCardProps> = ({ id, title, bgImage, onClick }
 
   return (
     <div
-      className="rounded-xl overflow-hidden h-48 w-[25rem] relative group cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-105 shadow-inner"
+      className="rounded-xl overflow-hidden h-40 w-[25rem] relative group cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-105 shadow-inner"
       style={{
         backgroundImage: `url(${bgImage})`,
         backgroundSize: 'cover',
