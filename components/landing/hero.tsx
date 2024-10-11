@@ -1,17 +1,15 @@
+import React from 'react';
 import { DotPattern } from "../background/dot-pattern";
 import { HeroCard } from "../cards/hero-card";
 import { hero } from "../../utils/content";
 import GradientButton from "../buttons/gradient-button";
 import ImageSlider from "../cards/slider";
-import { useRouter } from "next/router";
-import { useLogin } from "@privy-io/react-auth";
 
-const Hero = () => {
-  const router = useRouter();
-  const { login } = useLogin({
-    onComplete: () => router.push("/dashboard"),
-  });
+interface HeroProps {
+  onLogin: () => void;
+}
 
+const Hero: React.FC<HeroProps> = ({ onLogin }) => {
   return (
     <div className="relative w-full h-[90%] border-t-2 border-black/10">
       <div className="flex h-[70%] justify-between items-center">
@@ -33,7 +31,7 @@ const Hero = () => {
           <div>
             <GradientButton
               label="Login"
-              onClick={login}
+              onClick={onLogin}
             />
           </div>
         </div>
