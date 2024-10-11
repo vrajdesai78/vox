@@ -27,7 +27,7 @@ const BuyItemPage: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-4">{item.title}</h1>
-      <Image src={item.bgImage} alt={item.title} className="w-full h-64 object-cover rounded-lg mb-4" />
+      <Image src={item.bgImage} alt={item.title} width={20} height={48} className="w-full h-64 object-cover rounded-lg mb-4" />
       <p className="mb-4">{item.description}</p>
       <h2 className="text-2xl font-semibold mb-2">Available Shows</h2>
       <ul>
@@ -38,7 +38,6 @@ const BuyItemPage: React.FC = () => {
           </li>
         ))}
       </ul>
-      {/* Add more sections for mostSoldTickets, otherLocations, etc. */}
     </div>
   );
 };

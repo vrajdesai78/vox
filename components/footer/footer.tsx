@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 const EventBanner = () => (
-  <div className="bg-black text-white py-2 px-4 text-center w-72 rounded-t-lg shadow-md">
+  <div className="bg-gradient-to-b from-[#272727] to-black text-white py-4 px-4 text-center w-72 rounded-t-lg shadow-md">
     <p className="text-sm font-medium">You'll never miss an event again!</p>
   </div>
 );
