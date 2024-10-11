@@ -1,35 +1,35 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import ExploreCard from '../cards/explore-card';
-import { useExploreStore, ExploreItem } from '../../store/store';
+import SellCard from '../cards/sell-card';
+import { useSellStore, SellItem } from '../../store/store';
 
-const ExploreGrid: React.FC = () => {
-  const { items, showAll, isLoading, error, setItems, toggleShowAll, setLoading, setError } = useExploreStore();
+const SellGrid: React.FC = () => {
+  const { items, showAll, isLoading, error, setItems, toggleShowAll, setLoading, setError } = useSellStore();
   const router = useRouter();
 
   useEffect(() => {
-    const fetchExploreData = async () => {
+    const fetchSellData = async () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get<ExploreItem[]>('/api/explore');
+        const response = await axios.get<SellItem[]>('/api/sell');
         setItems(response.data);
       } catch (err) {
-        setError('Failed to load explore data');
-        console.error('Error loading explore data:', err);
+        setError('Failed to load data');
+        console.error('Error loading data:', err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchExploreData();
+    fetchSellData();
   }, [setItems, setLoading, setError]);
 
   const displayedItems = showAll ? items : items.slice(0, 4);
 
   const handleCardClick = (id: number) => {
-    router.push(`/explore/${id}`);
+    router.push(`/sell/${id}`);
   };
 
   if (isLoading) {
@@ -44,7 +44,7 @@ const ExploreGrid: React.FC = () => {
     <div className="w-full max-w-4xl mx-auto px-4 flex flex-col justify-center items-center">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 justify-items-center">
         {displayedItems.map((item) => (
-          <ExploreCard
+          <SellCard
             key={item.id}
             id={item.id}
             title={item.title}
@@ -65,4 +65,4 @@ const ExploreGrid: React.FC = () => {
   );
 };
 
-export default ExploreGrid;
+export default SellGrid;

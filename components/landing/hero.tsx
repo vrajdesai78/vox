@@ -11,9 +11,9 @@ interface HeroProps {
 
 const Hero: React.FC<HeroProps> = ({ onLogin }) => {
   return (
-    <div className="relative w-full h-[90%] border-t-2 border-black/10">
-      <div className="flex h-[70%] justify-between items-center">
-        <div className="relative w-[30rem] h-[14rem] grid grid-cols-2 grid-rows-2">
+    <div className="relative w-full border-t-2 border-black/10">
+      <div className="flex pt-32 justify-between items-center">
+        <div className="relative w-[30rem] grid grid-cols-2 grid-rows-2">
           <div className="flex justify-center items-center col-span-1 row-span-1">
             <HeroCard color="#CDFFAC" emoji="🎤" rotation="-12deg" />
           </div>
@@ -44,7 +44,7 @@ const Hero: React.FC<HeroProps> = ({ onLogin }) => {
           </div>
         </div>
       </div>
-      <div>
+      <div className='pt-24'>
         <ImageSlider />
       </div>
       <div className="absolute inset-0 -z-10">

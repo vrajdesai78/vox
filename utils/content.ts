@@ -3,7 +3,7 @@ export const hero = {
     subtitle: "Turning ’Sold Out’ to ‘See you there’"
 }
 
-export const explore = {
+export const sell = {
     title: "Sell uour tickets, Share the Joy",
     subtitle: "Got a ticket? Set your price, Choose secure transactions and Submit listing!",
 }

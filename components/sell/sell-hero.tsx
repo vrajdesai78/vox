@@ -1,10 +1,10 @@
 import React from 'react';
-import { explore } from "../../utils/content";
+import { sell } from "../../utils/content";
 import GradientButton from "../buttons/gradient-button";
 import SearchBar from "../searchbar/searchbar";
-import ExploreGrid from "./explore-grid";
+import SellGrid from "./sell-grid";
 
-const ExploreHero: React.FC = () => {
+const SellHero: React.FC = () => {
   const handleButtonClick = () => {
     console.log("Button clicked!");
   };
@@ -14,10 +14,10 @@ const ExploreHero: React.FC = () => {
       <div className="flex flex-1 justify-center items-center">
         <div className="flex w-full max-w-xl flex-col items-center gap-3 px-4">
           <h1 className="text-black text-2xl lg:text-5xl lg:text-nowrap text-center font-semibold font-bricolage leading-tight">
-            {explore.title}
+            {sell.title}
           </h1>
           <p className="text-custom-gray text-center text-xs lg:text-base font-inter leading-tight">
-            {explore.subtitle}
+            {sell.subtitle}
           </p>
           <div className="pt-4">
             <GradientButton
@@ -31,10 +31,10 @@ const ExploreHero: React.FC = () => {
         <SearchBar />
       </div>
       <div className="w-full">
-        <ExploreGrid />
+        <SellGrid />
       </div>
     </div>
   );
 };
 
-export default ExploreHero;
+export default SellHero;

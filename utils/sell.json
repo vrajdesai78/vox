@@ -2,26 +2,26 @@
   {
     "id": 1,
     "title": "Jazz",
-    "bgImage": "/explore/red.svg"
+    "bgImage": "/sell/red.svg"
   },
   {
     "id": 2,
     "title": "Jazz",
-    "bgImage": "/explore/purple.svg"
+    "bgImage": "/sell/purple.svg"
   },
   {
     "id": 3,
     "title": "Jazz",
-    "bgImage": "/explore/blue.svg"
+    "bgImage": "/sell/blue.svg"
   },
   {
     "id": 4,
     "title": "Jazz",
-    "bgImage": "/explore/red-pink.svg"
+    "bgImage": "/sell/red-pink.svg"
   },
   {
     "id": 5,
     "title": "Jazz",
-    "bgImage": "/explore/red-pink.svg"
+    "bgImage": "/sell/red-pink.svg"
   }
 ]

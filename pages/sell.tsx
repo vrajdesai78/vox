@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { usePrivy } from "@privy-io/react-auth";
 import Head from "next/head";
 import { Navbar } from "../components/navbar/navbar";
-import ExploreHero from "../components/explore/explore-hero";
 import FooterWithBanner from "../components/footer/footer";
+import SellHero from "../components/sell/sell-hero";
 
 export default function Explore() {
   const router = useRouter();
@@ -23,7 +23,7 @@ export default function Explore() {
   return (
     <>
       <Head>
-        <title>🎤 Vox - Explore</title>
+        <title>🎤 Vox - Sell</title>
       </Head>
 
       <main className="w-full min-h-screen flex justify-center">
@@ -32,7 +32,7 @@ export default function Explore() {
             <Navbar />
           </div>
           <div className="pt-32 border-x-black/10 border-x-2 h-full">
-            <ExploreHero />
+            <SellHero />
           </div>
         </div>
       </main>

@@ -1,12 +1,13 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { ExploreItem } from '../../store/store';
+import { SellItem } from '../../store/store';
+import Image from 'next/image';
 
-const ExploreItemPage: React.FC = () => {
+const SellItemPage: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
-  const [item, setItem] = useState<ExploreItem | null>(null);
+  const [item, setItem] = useState<SellItem | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -14,7 +15,7 @@ const ExploreItemPage: React.FC = () => {
     const fetchItem = async () => {
       if (id) {
         try {
-          const response = await axios.get<ExploreItem>(`/api/explore/${id}`);
+          const response = await axios.get<SellItem>(`/api/sell/${id}`);
           setItem(response.data);
         } catch (err) {
           setError('Failed to load item data');
@@ -35,9 +36,9 @@ const ExploreItemPage: React.FC = () => {
   return (
     <div>
       <h1>{item.title}</h1>
-      <img src={item.bgImage} alt={item.title} />
+      <Image src={item.bgImage} alt={item.title} />
     </div>
   );
 };
 
-export default ExploreItemPage;
+export default SellItemPage;

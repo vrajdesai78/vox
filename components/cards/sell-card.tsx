@@ -1,13 +1,13 @@
 import React from 'react';
 
-interface ExploreCardProps {
+interface SellCardProps {
   id: number; 
   title: string;
   bgImage: string;
   onClick: (id: number) => void; 
 }
 
-const ExploreCard: React.FC<ExploreCardProps> = ({ id, title, bgImage, onClick }) => {
+const SellCard: React.FC<SellCardProps> = ({ id, title, bgImage, onClick }) => {
   const handleClick = () => {
     onClick(id);
   };
@@ -30,4 +30,4 @@ const ExploreCard: React.FC<ExploreCardProps> = ({ id, title, bgImage, onClick }
   );
 };
 
-export default ExploreCard;
+export default SellCard;

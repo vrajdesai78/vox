@@ -1,24 +1,24 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-export interface ExploreItem {
+export interface SellItem {
   id: number;
   title: string;
   bgImage: string;
 }
 
-interface ExploreState {
-  items: ExploreItem[];
+interface SellState {
+  items: SellItem[];
   showAll: boolean;
   isLoading: boolean;
   error: string | null;
-  setItems: (items: ExploreItem[]) => void;
+  setItems: (items: SellItem[]) => void;
   toggleShowAll: () => void;
   setLoading: (isLoading: boolean) => void;
   setError: (error: string | null) => void;
 }
 
-export const useExploreStore = create<ExploreState>((set) => ({
+export const useSellStore = create<SellState>((set) => ({
   items: [],
   showAll: false,
   isLoading: false,
