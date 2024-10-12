@@ -31,12 +31,6 @@ const BuyItemPage: React.FC<{ params: { id: string } }> = ({ params }) => {
     }
   }, [params.id, items]);
 
-  const handleShowSelect = (show: BuyItem['shows'][0]) => {
-    setSelectedShow(show);
-    setSelectedTicket(null);
-    setIsModalOpen(true);
-  };
-
   const handleTicketSelect = (ticket: BuyItem['mostSoldTickets'][0]) => {
     setSelectedTicket(ticket);
     setSelectedShow(item?.shows[0] || null);
@@ -61,7 +55,7 @@ const BuyItemPage: React.FC<{ params: { id: string } }> = ({ params }) => {
           <h2 className="text-2xl font-semibold mb-2 font-bricolage">
             Choose a Show
           </h2>
-          <Schedule event={item} />
+          <Schedule event={item}/>
         </div>
         <div className="flex flex-col gap-2 pt-6">
           <h2 className="text-2xl font-semibold mb-2 font-bricolage">

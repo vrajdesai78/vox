@@ -1,3 +1,4 @@
+import events from "@/utils/events";
 import buy from "@/utils/buy";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
@@ -6,29 +7,53 @@ export interface SellItem {
   id: number;
   title: string;
   bgImage: string;
+  description: string;
+  location: string;
+  dateRange: string;
+  trending: {
+    status: boolean;
+    metric: string;
+  };
+  shows: Array<{
+    date: string;
+    day: string;
+    time: string;
+    price: number;
+    currency: string;
+    bestSelling?: boolean;
+  }>;
+  mostSoldTickets: Array<{
+    section: string;
+    row: string;
+    view: string;
+    remaining: number;
+  }>;
+  otherLocations: string[];
 }
 
 interface SellState {
   items: SellItem[];
-  showAll: boolean;
   isLoading: boolean;
   error: string | null;
-  setItems: (items: SellItem[]) => void;
-  toggleShowAll: () => void;
-  setLoading: (isLoading: boolean) => void;
-  setError: (error: string | null) => void;
+  fetchItems: () => Promise<void>;
 }
 
-export const useSellStore = create<SellState>((set) => ({
-  items: [],
-  showAll: false,
-  isLoading: false,
-  error: null,
-  setItems: (items) => set({ items }),
-  toggleShowAll: () => set((state) => ({ showAll: !state.showAll })),
-  setLoading: (isLoading) => set({ isLoading }),
-  setError: (error) => set({ error }),
-}));
+export const useSellStore = create<SellState>()(
+  devtools((set) => ({
+    items: [],
+    isLoading: false,
+    error: null,
+    fetchItems: async () => {
+      set({ isLoading: true });
+      try {
+        const data = events;
+        set({ items: data, isLoading: false });
+      } catch (error) {
+        set({ error: "Failed to fetch sell items", isLoading: false });
+      }
+    },
+  }))
+);
 
 export interface BuyItem {
   id: number;
