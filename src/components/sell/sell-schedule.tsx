@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 interface Show {
   date: string;
@@ -22,6 +23,20 @@ interface ScheduleProps {
 }
 
 const SellSchedule: React.FC<ScheduleProps> = ({ event }) => {
+  const router = useRouter();
+
+  const handleShowSelect = (show: Show) => {
+    const queryParams = new URLSearchParams({
+      eventId: event.id.toString(),
+      showDate: show.date,
+      showTime: show.time,
+      showPrice: show.price.toString(),
+      showCurrency: show.currency,
+    }).toString();
+
+    router.push(`/sell/form?${queryParams}`);
+  };
+
   return (
     <div className="w-full">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -33,6 +48,7 @@ const SellSchedule: React.FC<ScheduleProps> = ({ event }) => {
                 ? 'bg-green-100 border-[10px] border-green-300 relative' 
                 : 'bg-white border-gray-200 border-[10px]'
             }`}
+            onClick={() => handleShowSelect(show)}
           >
             {show.bestSelling && (
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 -rotate-6 bg-[#CEFFAD] text-green-500 text-xs py-1 px-2 rounded-full shadow-md">

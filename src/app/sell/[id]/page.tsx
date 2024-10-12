@@ -9,7 +9,11 @@ import FullFooterWithBanner from "@/components/footer/full-footer";
 import SellSchedule from "@/components/sell/sell-schedule";
 import SellScheduleWithLocation from "@/components/sell/sell-schedule-with-location";
 
-const SellItemPage: React.FC<{ params: { id: string } }> = ({ params }) => {
+interface SellItemPageProps {
+  params: { id: string };
+}
+
+const SellItemPage: React.FC<SellItemPageProps> = ({ params }) => {
   const { items, fetchItems, isLoading, error } = useSellStore();
   const [item, setItem] = useState<SellItem | null>(null);
 
@@ -32,8 +36,8 @@ const SellItemPage: React.FC<{ params: { id: string } }> = ({ params }) => {
 
   return (
     <>
+      <Navbar />
       <div className="container mx-auto max-w-6xl px-2 lg:px-8 py-8 flex flex-col gap-4 border-x-2 min-h-screen">
-        <Navbar />
         <DescriptionBox
           title={item.title}
           location={item.location}
@@ -43,7 +47,7 @@ const SellItemPage: React.FC<{ params: { id: string } }> = ({ params }) => {
           imageUrl={item.bgImage}
         />
         <div className="flex flex-col gap-2 pt-6">
-          <h2 className="text-2xl font-semibold mb-2 font-bricolage">Shows</h2>
+          <h2 className="text-2xl font-semibold mb-2 font-bricolage">Sell Tickets for These Shows</h2>
           <SellSchedule event={item} />
         </div>
         <div className="flex flex-col gap-2 pt-6">
@@ -54,7 +58,7 @@ const SellItemPage: React.FC<{ params: { id: string } }> = ({ params }) => {
         </div>
         <div className="flex flex-col gap-2 pt-6">
           <h2 className="text-2xl font-semibold mb-2 font-bricolage">
-            Other locations around the world
+            Event Locations
           </h2>
           <Image
             src="/buy/map.svg"
