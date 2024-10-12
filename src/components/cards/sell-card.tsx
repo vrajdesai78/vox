@@ -1,34 +1,62 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
+import { MapPin } from "lucide-react";
 
 interface SellCardProps {
-  id: number; 
+  id: number;
   title: string;
   bgImage: string;
-  onClick: (id: number) => void; 
+  location: string;
+  dateRange: string;
+  trending: {
+    status: boolean;
+    metric: string;
+  };
+  onClick: (id: number) => void;
 }
 
-const SellCard: React.FC<SellCardProps> = ({ id, title, bgImage, onClick }) => {
+const SellCard: React.FC<SellCardProps> = ({
+  id,
+  title,
+  bgImage,
+  location,
+  dateRange,
+  trending,
+  onClick,
+}) => {
   const handleClick = () => {
     onClick(id);
   };
 
   return (
-    <div
-      className="rounded-xl overflow-hidden h-40 w-[20rem] lg:w-[24rem] relative group cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-105 shadow-inner"
-      style={{
-        backgroundImage: `url(${bgImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
+    <button
       onClick={handleClick}
+      className="w-full max-w-sm mx-auto bg-[#F6F6F6] p-3 border-[1px] border-dashed border-[#DADADA] rounded-lg shadow-inner overflow-hidden"
     >
-      <div className="absolute inset-0 bg-black bg-opacity-30 transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100" />
-      <div className="p-4 text-white font-bold relative z-10">
-        {title}
+      <div className="relative h-40">
+        <Image
+          src={bgImage}
+          alt={title}
+          layout="fill"
+          objectFit="cover"
+          className="rounded-t-lg"
+        />
       </div>
-    </div>
+      <div className="p-3 font-bricolage">
+        <div className="flex justify-between">
+          <div className="flex flex-col gap-2">
+            <div className="text-2xl font-bold flex justify-start">{title}</div>
+            <div className="flex items-center text-gray-600">
+              <MapPin />
+              <span>{location}</span>
+            </div>
+            <p className="text-gray-600">{dateRange}</p>
+          </div>
+        </div>
+      </div>
+    </button>
   );
 };
 

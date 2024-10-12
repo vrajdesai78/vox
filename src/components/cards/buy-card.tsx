@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
+import { MapPin } from "lucide-react";
 
 interface BuyCardProps {
   id: number;
@@ -29,30 +31,41 @@ const BuyCard: React.FC<BuyCardProps> = ({
   };
 
   return (
-    <div
-      className='rounded-xl overflow-hidden h-40 w-[25rem] relative group cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-105 shadow-inner'
-      style={{
-        backgroundImage: `url(${bgImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
+    <button
       onClick={handleClick}
+      className="w-full max-w-sm mx-auto bg-[#F6F6F6] p-3 border-[1px] border-dashed border-[#DADADA] rounded-lg shadow-inner overflow-hidden"
     >
-      <div className='absolute inset-0 bg-black bg-opacity-30 transition-opacity duration-300 ease-in-out opacity-0 group-hover:opacity-100' />
-      <div className='p-4 text-white font-bold relative z-10 flex flex-col h-full justify-between'>
-        <div>
-          <h3 className='text-xl mb-1'>{title}</h3>
-          <p className='text-sm font-normal'>
-            {location} • {dateRange}
-          </p>
-        </div>
-        {trending.status && (
-          <p className='text-xs font-normal text-green-400'>
-            Trending: {trending.metric}
-          </p>
-        )}
+      <div className="relative h-40">
+        <Image
+          src={bgImage}
+          alt={title}
+          layout="fill"
+          objectFit="cover"
+          className="rounded-t-lg"
+        />
       </div>
-    </div>
+      <div className="p-3 font-bricolage">
+        <div className="flex justify-between">
+          <div className="flex flex-col gap-2">
+            <div className="text-2xl font-bold flex justify-start">{title}</div>
+            <div className="flex items-center text-gray-600">
+              <MapPin />
+              <span>{location}</span>
+            </div>
+            <p className="text-gray-600">{dateRange}</p>
+          </div>
+          <div>
+            {trending.status && (
+              <div className="mt-2">
+                <span className="bg-[#CEFFAD] text-[#44A900] text-xs font-medium px-2.5 py-1 rounded-md border-[#44A900] border-[1px] border-dashed">
+                  Trending event
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </button>
   );
 };
 

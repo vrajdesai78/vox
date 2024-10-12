@@ -1,4 +1,4 @@
-const buy = [
+const events = [
   {
     id: 1,
     title: "Coldplay",
@@ -129,4 +129,4 @@ const buy = [
   },
 ];
 
-export default buy;
+export default events;
