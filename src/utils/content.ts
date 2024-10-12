@@ -4,7 +4,7 @@ export const hero = {
 };
 
 export const sell = {
-  title: "Sell uour tickets, Share the Joy",
+  title: "Sell your tickets, Share the Joy",
   subtitle:
     "Got a ticket? Set your price, Choose secure transactions and Submit listing!",
 };

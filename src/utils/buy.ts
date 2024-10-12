@@ -2,7 +2,7 @@ const buy = [
   {
     id: 1,
     title: "Coldplay",
-    bgImage: "/buy/coldplay.svg",
+    bgImage: "/buy/coldplay.jpg",
     description:
       "Coldplay is a British rock band, formed in 1997 by University College London classmates Chris Martin (vocals, guitar, piano), Jonny Buckland (guitar) and Guy Berryman (bass), along with drummer Will Champion. The band's name comes from Tim Crompton, a student who was in the same university as the members (University College London) at the time. They were previously known as Pectoralz, then changed their name to Starfish in 1997 before finally settling on the name Coldplay. Once they issued their debut, Parachutes in 2000, many saw them as a Radiohead knock-off...",
     location: "Mumbai",
@@ -66,7 +66,7 @@ const buy = [
   // {
   //   id: 2,
   //   title: "Ed Sheeran",
-  //   bgImage: "/buy/coldplay.svg",
+  //   bgImage: "/buy/coldplay.jpg",
   //   description:
   //     "Coldplay is a British rock band, formed in 1997 by University College London classmates Chris Martin (vocals, guitar, piano), Jonny Buckland (guitar) and Guy Berryman (bass), along with drummer Will Champion. The band's name comes from Tim Crompton, a student who was in the same university as the members (University College London) at the time. They were previously known as Pectoralz, then changed their name to Starfish in 1997 before finally settling on the name Coldplay. Once they issued their debut, Parachutes in 2000, many saw them as a Radiohead knock-off...",
   //   location: "Mumbai",
