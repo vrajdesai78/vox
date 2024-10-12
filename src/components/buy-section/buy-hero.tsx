@@ -2,14 +2,10 @@
 
 import React from "react";
 import { buy } from "../../utils/content";
-import GradientButton from "../buttons/gradient-button";
 import SearchBar from "../searchbar/searchbar";
 import BuyGrid from "./buy-grid";
 
 const BuyHero: React.FC = () => {
-  const handleButtonClick = () => {
-    console.log("Button clicked!");
-  };
 
   return (
     <div className='relative w-full flex flex-col'>
@@ -21,12 +17,6 @@ const BuyHero: React.FC = () => {
           <p className='text-custom-gray text-center text-xs lg:text-base font-inter leading-tight'>
             {buy.subtitle}
           </p>
-          <div className='pt-4'>
-            <GradientButton
-              label='Create a Listing'
-              onClick={handleButtonClick}
-            />
-          </div>
         </div>
       </div>
       <div className='w-full max-w-xl mx-auto px-4 mt-10 mb-10'>
