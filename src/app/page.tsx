@@ -10,7 +10,7 @@ export default function Explore() {
           <div className='fixed top-8 left-1/2 transform -translate-x-1/2 z-20'>
             <Navbar />
           </div>
-          <div className='pt-32 border-x-black/10 border-x-2 h-full'>
+          <div className='pt-16 border-x-black/10 border-x-2 h-full overflow-hidden'>
             <Hero />
           </div>
         </div>

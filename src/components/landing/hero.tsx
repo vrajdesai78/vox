@@ -1,18 +1,22 @@
 "use client";
 
-import React from "react";
+import React, {useState} from "react";
 import { DotPattern } from "@/components/background/dot-pattern";
 import { HeroCard } from "@/components/cards/hero-card";
 import { hero } from "@/utils/content";
 import GradientButton from "@/components/buttons/gradient-button";
 import ImageSlider from "@/components/cards/slider";
+import CityCards from "../cards/city-card";
+import SellGrid from "../sell/sell-grid";
 
 const Hero = () => {
+  const [cities, setCities] = useState([]);
+
   return (
     <>
       <div className='hidden lg:flex'>
         <div className='relative w-full border-t-2 border-black/10'>
-          <div className='flex pt-32 justify-between items-center'>
+          <div className='flex pt-20 justify-between items-center'>
             <div className='relative w-[30rem] grid grid-cols-2 grid-rows-2'>
               <div className='flex justify-center items-center col-span-1 row-span-1'>
                 <HeroCard color='#CDFFAC' emoji='🎤' rotation='-12deg' />
@@ -52,16 +56,16 @@ const Hero = () => {
       <div className='flex flex-col gap-10 lg:hidden pt-10'>
         <div className='flex items-center gap-2'>
           <div className='col-span-1 row-span-1'>
-            <HeroCard color='#CDFFAC' emoji='🎤' rotation='8deg' />
+            <HeroCard color='#CDFFAC' emoji='🎤' rotation='4deg' />
           </div>
           <div className='col-span-2 row-span-1'>
-            <HeroCard color='#ADE8FF' emoji='🎺' rotation='-8deg' />
+            <HeroCard color='#ADE8FF' emoji='🎺' rotation='-2deg' />
           </div>
           <div className='col-span-3 row-span-1'>
-            <HeroCard color='#E1CCFF' emoji='🪩' rotation='8deg' />
+            <HeroCard color='#E1CCFF' emoji='🪩' rotation='4deg' />
           </div>
           <div className='col-span-4 row-span-1'>
-            <HeroCard color='#FFE0A6' emoji='🎶' rotation='-8deg' />
+            <HeroCard color='#FFE0A6' emoji='🎶' rotation='-2deg' />
           </div>
         </div>
         <div className='flex flex-col items-center gap-2'>
@@ -86,13 +90,15 @@ const Hero = () => {
           <div className='text-black text-base text-center font-semibold font-bricolage leading-[38.40px]'>
             Choose by category
           </div>
-          <div>Cards here</div>
+          <div className="">
+            <SellGrid />
+          </div>
         </div>
         <div className='flex flex-col items-center gap-2'>
           <div className='text-black text-base text-center font-semibold font-bricolage leading-[38.40px]'>
             Choose by cities
           </div>
-          <div>Cards here</div>
+          <div><CityCards /></div>
         </div>
         <div className='absolute inset-0 -z-10'>
           <DotPattern className='[mask-image:gradient(1px_circle_at_center,white,transparent)]' />
