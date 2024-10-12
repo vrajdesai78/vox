@@ -132,7 +132,8 @@ const SellForm: React.FC = () => {
             className="w-full p-2 border rounded"
           >
             <option value="">Select Section</option>
-            {/* Add your section options here */}
+            <option value="section1">Section 1</option>
+            <option value="section2">Section 2</option>
           </select>
           {errors.section && (
             <p className="text-red-500 text-sm">{errors.section}</p>
@@ -144,7 +145,8 @@ const SellForm: React.FC = () => {
             className="w-full p-2 border rounded"
           >
             <option value="">Select Row</option>
-            {/* Add your row options here */}
+            <option value="1">1</option>
+            <option value="2">2</option>
           </select>
           {errors.row && <p className="text-red-500 text-sm">{errors.row}</p>}
 
