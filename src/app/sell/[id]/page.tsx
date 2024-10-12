@@ -50,12 +50,12 @@ const SellItemPage: React.FC<SellItemPageProps> = ({ params }) => {
           <h2 className="text-2xl font-semibold mb-2 font-bricolage">Sell Tickets for These Shows</h2>
           <SellSchedule event={item} />
         </div>
-        <div className="flex flex-col gap-2 pt-6">
+        {/* <div className="flex flex-col gap-2 pt-6">
           <h2 className="text-2xl font-semibold mb-2 font-bricolage">
             Other shows around the world
           </h2>
           <SellScheduleWithLocation event={item} />
-        </div>
+        </div> */}
         <div className="flex flex-col gap-2 pt-6">
           <h2 className="text-2xl font-semibold mb-2 font-bricolage">
             Event Locations

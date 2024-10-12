@@ -29,7 +29,6 @@ export const Navbar: React.FC = () => {
 
   return (
     <nav className='bg-white p-1 shadow-md w-fit rounded-xl mx-auto font-bricolage'>
-      <WalletDefault />
       <ul
         onMouseLeave={() => {
           setPosition((prev) => ({
