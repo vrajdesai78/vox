@@ -81,3 +81,33 @@ export const useBuyStore = create<BuyState>()(
     },
   }))
 );
+
+interface CheckoutItem {
+  eventId: number;
+  eventTitle: string;
+  showDate: string;
+  showTime: string;
+  ticketSection: string;
+  ticketRow: string;
+  quantity: number;
+  totalPrice: number;
+  currency: string;
+}
+
+interface CheckoutState {
+  items: CheckoutItem[];
+  addToCheckout: (item: CheckoutItem) => void;
+  removeFromCheckout: (eventId: number) => void;
+  clearCheckout: () => void;
+}
+
+export const useCheckoutStore = create<CheckoutState>((set) => ({
+  items: [],
+  addToCheckout: (item) => set((state) => ({ 
+    items: [...state.items, item] 
+  })),
+  removeFromCheckout: (eventId) => set((state) => ({ 
+    items: state.items.filter((item) => item.eventId !== eventId) 
+  })),
+  clearCheckout: () => set({ items: [] }),
+}));
