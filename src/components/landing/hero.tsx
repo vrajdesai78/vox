@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { DotPattern } from "@/components/background/dot-pattern";
 import { HeroCard } from "@/components/cards/hero-card";
 import { hero } from "@/utils/content";
@@ -8,9 +8,14 @@ import GradientButton from "@/components/buttons/gradient-button";
 import ImageSlider from "@/components/cards/slider";
 import CityCards from "../cards/city-card";
 import SellGrid from "../sell/sell-grid";
+import { useSendTransaction } from "wagmi";
+import { base, baseSepolia } from "viem/chains";
+import { parseEther } from "viem";
 
 const Hero = () => {
   const [cities, setCities] = useState([]);
+
+  const { sendTransaction } = useSendTransaction();
 
   return (
     <>
@@ -33,7 +38,15 @@ const Hero = () => {
                 {hero.subtitle}
               </div>
               <div>
-                <GradientButton label='Login' onClick={() => {}} />
+                <GradientButton
+                  label='buy'
+                  onClick={() => {
+                    sendTransaction({
+                      to: "0x78D98C8DBD4e1BFEfe439f1bF89692FeDCa95C45",
+                      value: parseEther("0.001"),
+                    });
+                  }}
+                />
               </div>
             </div>
             <div className='relative w-[30rem] h-[14rem] grid grid-cols-2 grid-rows-2'>
@@ -77,7 +90,6 @@ const Hero = () => {
           </div>
           <button
             className={`h-11 w-32 px-4 py-2 bg-gradient-to-b from-[#272727] to-black rounded-lg shadow-inner border border-black flex justify-center items-center gap-3 text-center text-white text-sm font-medium leading-[16.80px] font-inter`}
-            onClick={() => {}}
             type='button'
           >
             Login
@@ -90,7 +102,7 @@ const Hero = () => {
           <div className='text-black text-base text-center font-semibold font-bricolage leading-[38.40px]'>
             Choose by category
           </div>
-          <div className="">
+          <div className=''>
             <SellGrid />
           </div>
         </div>
@@ -98,7 +110,9 @@ const Hero = () => {
           <div className='text-black text-base text-center font-semibold font-bricolage leading-[38.40px]'>
             Choose by cities
           </div>
-          <div><CityCards /></div>
+          <div>
+            <CityCards />
+          </div>
         </div>
         <div className='absolute inset-0 -z-10'>
           <DotPattern className='[mask-image:gradient(1px_circle_at_center,white,transparent)]' />

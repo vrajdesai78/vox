@@ -4,6 +4,7 @@ import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ConnectWallet, WalletDefault } from "@coinbase/onchainkit/wallet";
 
 export const Navbar: React.FC = () => {
   const [position, setPosition] = useState<{
@@ -27,7 +28,8 @@ export const Navbar: React.FC = () => {
   ];
 
   return (
-    <nav className="bg-white p-1 shadow-md w-fit rounded-xl mx-auto font-bricolage">
+    <nav className='bg-white p-1 shadow-md w-fit rounded-xl mx-auto font-bricolage'>
+      <WalletDefault />
       <ul
         onMouseLeave={() => {
           setPosition((prev) => ({
@@ -36,7 +38,7 @@ export const Navbar: React.FC = () => {
           }));
           setActiveTab(null);
         }}
-        className="relative mx-auto flex items-center w-fit rounded-xl bg-[#F8F8F8] p-1"
+        className='relative mx-auto flex items-center w-fit rounded-xl bg-[#F8F8F8] p-1'
       >
         {navItems.map((item, index) => (
           <Tab
@@ -48,8 +50,13 @@ export const Navbar: React.FC = () => {
             isActive={pathname === item.path}
             href={item.path}
           >
-            <div className={`text-center ${index === 0 ? 'text-xl font-semibold' : 'text-base'} text-custom-gray text-nowrap font-inter leading-tight`}>
-              {index === 0 && "🎤 "}{item.name}
+            <div
+              className={`text-center ${
+                index === 0 ? "text-xl font-semibold" : "text-base"
+              } text-custom-gray text-nowrap font-inter leading-tight`}
+            >
+              {index === 0 && "🎤 "}
+              {item.name}
             </div>
           </Tab>
         ))}
@@ -106,9 +113,7 @@ const Tab: React.FC<TabProps> = ({
         isActive ? "text-offwhite" : "text-light-gray"
       }`}
     >
-      <Link href={href}>
-        {children}
-      </Link>
+      <Link href={href}>{children}</Link>
     </li>
   );
 };
@@ -127,7 +132,7 @@ const Cursor: React.FC<CursorProps> = ({ position }) => {
       animate={{
         ...position,
       }}
-      className="absolute z-0 h-10 rounded-xl bg-white shadow-lg border border-gray-200"
+      className='absolute z-0 h-10 rounded-xl bg-white shadow-lg border border-gray-200'
     />
   );
 };
