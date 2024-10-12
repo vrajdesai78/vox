@@ -160,11 +160,13 @@ interface FormData {
   price: number;
   useSlippage: boolean;
   slippagePercentage: number;
+  uploadedFile: File | null;
 }
 
 interface SellFormState extends FormData {
   errors: Record<string, string>;
   setField: <K extends keyof FormData>(key: K, value: FormData[K]) => void;
+  setUploadedFile: (file: File | null) => void;
   validateForm: () => boolean;
 }
 
@@ -180,10 +182,16 @@ export const useSellFormStore = create<SellFormState>((set, get) => ({
   useSlippage: false,
   slippagePercentage: 0,
   errors: {},
+  uploadedFile: null,
+
 
   setField: (key, value) => {
     console.log(`Setting ${key} to:`, value);
     set({ [key]: value });
+    get().validateForm();
+  },
+  setUploadedFile: (file: File | null) => {
+    set({ uploadedFile: file });
     get().validateForm();
   },
 
@@ -204,9 +212,37 @@ export const useSellFormStore = create<SellFormState>((set, get) => ({
       errors.slippagePercentage =
         "Slippage percentage must be between 1 and 100";
     }
+    if ((state.ticketType === "E-Ticket" || state.ticketType === "Mobile QR Code") && !state.uploadedFile) {
+      errors.uploadedFile = "Please upload your ticket";
+    }
 
     console.log("Validation errors:", errors);
     set({ errors });
     return Object.keys(errors).length === 0;
+  },
+
+  submitForm: async () => {
+    const isValid = get().validateForm();
+    if (!isValid) {
+      console.log('Form validation failed');
+      return;
+    }
+  
+    const formData = {
+      ticketType: get().ticketType,
+      numberOfTickets: get().numberOfTickets,
+      splitPreference: get().splitPreference,
+      section: get().section,
+      row: get().row,
+      fromSeat: get().fromSeat,
+      toSeat: get().toSeat,
+      price: get().price,
+      useSlippage: get().useSlippage,
+      slippagePercentage: get().slippagePercentage,
+      uploadedFile: get().uploadedFile,
+    };
+  
+    console.log('Submitting form data:', formData);
+    console.log('Form submitted successfully');
   },
 }));
