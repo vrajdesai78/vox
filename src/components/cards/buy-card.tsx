@@ -33,7 +33,7 @@ const BuyCard: React.FC<BuyCardProps> = ({
   return (
     <button
       onClick={handleClick}
-      className="w-full max-w-sm mx-auto bg-[#F6F6F6] p-3 border-[1px] border-dashed border-[#DADADA] rounded-lg shadow-inner overflow-hidden"
+      className="w-full cursor-pointer max-w-sm mx-auto bg-[#F6F6F6] p-3 border-[1px] border-dashed border-[#DADADA] rounded-lg shadow-inner overflow-hidden"
     >
       <div className="relative h-40">
         <Image

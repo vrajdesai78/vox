@@ -13,71 +13,41 @@ export const cities: City[] = [
   {
     id: 2,
     city: "Kolkata",
-    image: "/images/landmarks/kolkata.svg",
+    image: "/hero/kolkata.png",
   },
   {
     id: 3,
     city: "Mumbai",
-    image: "/images/landmarks/mumbai.svg",
+    image: "/hero/mumbai.png",
   },
   {
     id: 4,
     city: "Bengaluru",
-    image: "/images/landmarks/bengaluru.svg",
+    image: "/hero/bangalore.png",
   },
   {
     id: 5,
     city: "Pune",
-    image: "/images/landmarks/pune.svg",
+    image: "/hero/pune.png",
   },
   {
     id: 6,
-    city: "Hyderabad",
-    image: "/images/landmarks/hyderabad.svg",
+    city: "Ahmedabad",
+    image: "/hero/ahmedabad.png",
   },
   {
     id: 7,
-    city: "Lucknow",
-    image: "/images/landmarks/lucknow.svg",
+    city: "Shillong",
+    image: "/hero/shillong.png",
   },
   {
     id: 8,
-    city: "Jaipur",
-    image: "/images/landmarks/jaipur.svg",
+    city: "Guwahati",
+    image: "/hero/guwahati.png",
   },
   {
     id: 9,
-    city: "Ahmedabad",
-    image: "/images/landmarks/ahmedabad.svg",
-  },
-  {
-    id: 10,
     city: "Chandigarh",
-    image: "/images/landmarks/chandigarh.svg",
-  },
-  {
-    id: 11,
-    city: "Goa",
-    image: "/images/landmarks/goa.svg",
-  },
-  {
-    id: 12,
-    city: "Indore",
-    image: "/images/landmarks/indore.svg",
-  },
-  {
-    id: 13,
-    city: "Guwahati",
-    image: "/images/landmarks/guwahati.svg",
-  },
-  {
-    id: 14,
-    city: "Patna",
-    image: "/images/landmarks/patna.svg",
-  },
-  {
-    id: 15,
-    city: "Shillong",
-    image: "/images/landmarks/shillong.svg",
+    image: "/hero/chandigarh.png",
   },
 ];

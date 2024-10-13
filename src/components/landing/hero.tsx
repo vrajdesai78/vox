@@ -39,7 +39,7 @@ const Hero = () => {
               </div>
               <div>
                 <GradientButton
-                  label='buy'
+                  label='Buy'
                   onClick={() => {
                     sendTransaction({
                       to: "0x78D98C8DBD4e1BFEfe439f1bF89692FeDCa95C45",
@@ -97,14 +97,6 @@ const Hero = () => {
         </div>
         <div className='px-4'>
           <ImageSlider />
-        </div>
-        <div className='flex flex-col items-center gap-2'>
-          <div className='text-black text-base text-center font-semibold font-bricolage leading-[38.40px]'>
-            Choose by category
-          </div>
-          <div className=''>
-            <SellGrid />
-          </div>
         </div>
         <div className='flex flex-col items-center gap-2'>
           <div className='text-black text-base text-center font-semibold font-bricolage leading-[38.40px]'>

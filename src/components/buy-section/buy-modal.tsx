@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Link from 'next/link';
 import { useCheckoutStore } from "@/store/store";
 import Image from "next/image";
 
@@ -126,14 +127,18 @@ const BuyModal: React.FC<BuyModalProps> = ({
             </div>
 
             <button
-              className="w-full bg-gradient-to-b from-[#222222] to-[#111111] text-white py-3 rounded-md mb-2 overflow-hidden"
+              className="w-full bg-gradient-to-b from-[#222222] to-[#111111] text-white py-3 rounded-md mb-2 overflow-hidden hover:scale-95 transition-all"
               onClick={handleCheckout}
             >
               Go to checkout
             </button>
-            <button className="w-full border border-black text-black py-3 rounded-md mb-2">
+            <Link
+              href={`/buy/bid/${event.id}`}
+              className="block w-full border border-black text-black py-3 rounded-md mb-2 text-center hover:scale-95 transition-all"
+              onClick={onClose}
+            >
               Place bid
-            </button>
+            </Link>
             <p className="text-center text-sm text-[#787878] underline cursor-pointer">
               See other tickets
             </p>
