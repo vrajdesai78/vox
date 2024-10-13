@@ -8,14 +8,18 @@ import GradientButton from "@/components/buttons/gradient-button";
 import ImageSlider from "@/components/cards/slider";
 import CityCards from "../cards/city-card";
 import SellGrid from "../sell/sell-grid";
-import { useSendTransaction } from "wagmi";
+import { useAccount, useSendTransaction } from "wagmi";
 import { base, baseSepolia } from "viem/chains";
 import { parseEther } from "viem";
+import {
+  ConnectWallet,
+  ConnectWalletText,
+  WalletDefault,
+  WalletDropdownDisconnect,
+} from "@coinbase/onchainkit/wallet";
 
 const Hero = () => {
-  const [cities, setCities] = useState([]);
-
-  const { sendTransaction } = useSendTransaction();
+  const { isConnected } = useAccount();
 
   return (
     <>
@@ -38,15 +42,13 @@ const Hero = () => {
                 {hero.subtitle}
               </div>
               <div>
-                <GradientButton
-                  label='Buy'
-                  onClick={() => {
-                    sendTransaction({
-                      to: "0x78D98C8DBD4e1BFEfe439f1bF89692FeDCa95C45",
-                      value: parseEther("0.001"),
-                    });
-                  }}
-                />
+                {isConnected ? (
+                  <WalletDropdownDisconnect />
+                ) : (
+                  <ConnectWallet className='w-full'>
+                    <ConnectWalletText>Login</ConnectWalletText>
+                  </ConnectWallet>
+                )}
               </div>
             </div>
             <div className='relative w-[30rem] h-[14rem] grid grid-cols-2 grid-rows-2'>
