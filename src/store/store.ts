@@ -246,3 +246,22 @@ export const useSellFormStore = create<SellFormState>((set, get) => ({
     console.log('Form submitted successfully');
   },
 }));
+
+interface BidState {
+  currentBid: number | null;
+  setBid: (amount: number) => void;
+  placeBid: (eventId: number, amount: number) => Promise<void>;
+}
+
+export const useBidStore = create<BidState>()(
+  devtools((set) => ({
+    currentBid: null,
+    setBid: (amount) => set({ currentBid: amount }),
+    placeBid: async (eventId, amount) => {
+      console.log(`Placed bid of ${amount} for event ${eventId}`);
+      set({ currentBid: amount });
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    },
+  }))
+);

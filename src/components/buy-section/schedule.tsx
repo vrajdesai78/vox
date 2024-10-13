@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 interface Show {
   date: string;
@@ -45,9 +46,12 @@ const Schedule: React.FC<ScheduleProps> = ({ event }) => {
               <button className="bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition-colors w-full sm:w-auto text-sm">
                 Buy from {show.currency}{show.price.toLocaleString()}
               </button>
-              <button className="border border-black text-black py-2 px-4 rounded-md hover:bg-gray-200 transition-colors w-full sm:w-auto text-sm">
+              <Link 
+                href={`/buy/bid/${event.id}`} 
+                className="border border-black text-black py-2 px-4 rounded-md hover:bg-gray-200 transition-colors w-full sm:w-auto text-sm text-center"
+              >
                 Place bid
-              </button>
+              </Link>
             </div>
           </div>
         ))}

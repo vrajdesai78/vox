@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
 import { useEffect, useState } from "react";
 import { useBuyStore, BuyItem } from "@/store/store";
-import { useCheckoutStore } from "@/store/store";
+import { useBidStore } from "@/store/store";
 import DescriptionBox from "@/components/buy-section/description-box";
 import { Navbar } from "@/components/navbar/navbar";
 import Schedule from "@/components/buy-section/schedule";
@@ -13,6 +13,7 @@ import BuyModal from "@/components/buy-section/buy-modal";
 
 const BuyItemPage: React.FC<{ params: { id: string } }> = ({ params }) => {
   const { items, fetchItems } = useBuyStore();
+  const { currentBid } = useBidStore();
   const [item, setItem] = useState<BuyItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedShow, setSelectedShow] = useState<BuyItem['shows'][0] | null>(null);
@@ -47,10 +48,15 @@ const BuyItemPage: React.FC<{ params: { id: string } }> = ({ params }) => {
           title={item.title}
           location={item.location}
           dateRange={item.dateRange}
-          isTrending={true}
+          isTrending={item.trending.status}
           description={item.description}
           imageUrl={item.bgImage}
         />
+        {currentBid && (
+          <div className="bg-blue-100 p-4 rounded-lg mb-4">
+            <p className="text-blue-800 font-semibold">Your current bid: {item.shows[0].currency}{currentBid}</p>
+          </div>
+        )}
         <div className="flex flex-col gap-2 pt-6">
           <h2 className="text-2xl font-semibold mb-2 font-bricolage">
             Choose a Show
