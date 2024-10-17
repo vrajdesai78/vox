@@ -5,6 +5,9 @@ import { useSellFormStore, TicketType, SplitPreference } from "@/store/store";
 import { useAccount } from "wagmi";
 import { ConnectWallet, ConnectWalletText } from "@coinbase/onchainkit/wallet";
 import TransactionWrapper from "@/components/wallet/TransactionWrapper";
+import { addTicket, getReclaimConfig } from "@/app/_actions";
+import { ReclaimProofRequest } from "@reclaimprotocol/js-sdk";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const SellFormPage: React.FC = () => {
   const {
@@ -26,6 +29,8 @@ const SellFormPage: React.FC = () => {
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const router = useRouter();
 
   const { address } = useAccount();
 
@@ -65,6 +70,8 @@ const SellFormPage: React.FC = () => {
       console.log("Form validation failed");
     }
   };
+
+  const searchParams = useSearchParams();
 
   return (
     <form onSubmit={handleSubmit} className='max-w-2xl mx-auto p-4 space-y-6'>
@@ -273,6 +280,32 @@ const SellFormPage: React.FC = () => {
         <p className='text-red-500 text-sm'>{errors.slippagePercentage}</p>
       )}
 
+      {/* <button
+        type='button'
+        onClick={async () => {
+          const relcaimProofRequest = await getReclaimConfig(
+            window.location.href
+          );
+          const proofRequest = await ReclaimProofRequest.fromJsonString(
+            relcaimProofRequest
+          );
+          const requestUrl = await proofRequest.getRequestUrl();
+          console.log("requestUrl", requestUrl);
+
+          await proofRequest.startSession({
+            onSuccess: (proofs) => {
+              console.log("Verification success", proofs);
+            },
+            onError: (error) => {
+              console.error("Verification failed", error);
+            },
+          });
+          window.open(requestUrl, "_blank");
+        }}
+      >
+        Verify Ticket
+      </button> */}
+
       {!address ? (
         <ConnectWallet className='w-full'>
           <ConnectWalletText>Sign In to List</ConnectWalletText>
@@ -280,7 +313,23 @@ const SellFormPage: React.FC = () => {
       ) : (
         <TransactionWrapper
           functionName='listTicket'
-          args={[1, Math.floor(Math.random() * 1000000), price, "newticket"]}
+          args={[Number(searchParams.get("eventId")), fromSeat, price]}
+          isApprovalTx={false}
+          onSuccess={async () => {
+            await addTicket({
+              ticketId: Number(fromSeat),
+              eventId: Number(searchParams.get("eventId")),
+              seatDetails: {
+                seatNumber: Number(fromSeat),
+                row: Number(row),
+                section: section,
+              },
+            });
+            router.push(`/sell/${fromSeat}`);
+          }}
+          onError={() => {
+            console.log("Transaction error");
+          }}
         />
       )}
     </form>

@@ -14,7 +14,7 @@ const BidPage: React.FC<{ params: { id: string } }> = ({ params }) => {
   const router = useRouter();
   const { id } = params;
   const { items, fetchItems } = useBuyStore();
-  const { currentBid, setBid, placeBid } = useBidStore();
+  const { currentBid, setBid } = useBidStore();
   const [item, setItem] = useState<BuyItem | null>(null);
   const [selectedShow, setSelectedShow] = useState<BuyItem['shows'][0] | null>(null);
   const [bidAmount, setBidAmount] = useState<string>('');
@@ -48,7 +48,7 @@ const BidPage: React.FC<{ params: { id: string } }> = ({ params }) => {
     if (!item) return;
     setIsLoading(true);
     try {
-      await placeBid(item.id, parseFloat(bidAmount));
+      
       router.push(`/buy/${item.id}`);
     } catch (error) {
       console.error('Failed to place bid:', error);

@@ -1,22 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { DotPattern } from "@/components/background/dot-pattern";
 import { HeroCard } from "@/components/cards/hero-card";
 import { hero } from "@/utils/content";
-import GradientButton from "@/components/buttons/gradient-button";
 import ImageSlider from "@/components/cards/slider";
 import CityCards from "../cards/city-card";
-import SellGrid from "../sell/sell-grid";
-import { useAccount, useSendTransaction } from "wagmi";
-import { base, baseSepolia } from "viem/chains";
-import { parseEther } from "viem";
+import { useAccount } from "wagmi";
 import {
   ConnectWallet,
   ConnectWalletText,
-  WalletDefault,
   WalletDropdownDisconnect,
 } from "@coinbase/onchainkit/wallet";
+import TransactionWrapper from "../wallet/TransactionWrapper";
 
 const Hero = () => {
   const { isConnected } = useAccount();

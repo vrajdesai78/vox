@@ -184,7 +184,6 @@ export const useSellFormStore = create<SellFormState>((set, get) => ({
   errors: {},
   uploadedFile: null,
 
-
   setField: (key, value) => {
     console.log(`Setting ${key} to:`, value);
     set({ [key]: value });
@@ -212,7 +211,11 @@ export const useSellFormStore = create<SellFormState>((set, get) => ({
       errors.slippagePercentage =
         "Slippage percentage must be between 1 and 100";
     }
-    if ((state.ticketType === "E-Ticket" || state.ticketType === "Mobile QR Code") && !state.uploadedFile) {
+    if (
+      (state.ticketType === "E-Ticket" ||
+        state.ticketType === "Mobile QR Code") &&
+      !state.uploadedFile
+    ) {
       errors.uploadedFile = "Please upload your ticket";
     }
 
@@ -224,10 +227,10 @@ export const useSellFormStore = create<SellFormState>((set, get) => ({
   submitForm: async () => {
     const isValid = get().validateForm();
     if (!isValid) {
-      console.log('Form validation failed');
+      console.log("Form validation failed");
       return;
     }
-  
+
     const formData = {
       ticketType: get().ticketType,
       numberOfTickets: get().numberOfTickets,
@@ -241,27 +244,20 @@ export const useSellFormStore = create<SellFormState>((set, get) => ({
       slippagePercentage: get().slippagePercentage,
       uploadedFile: get().uploadedFile,
     };
-  
-    console.log('Submitting form data:', formData);
-    console.log('Form submitted successfully');
+
+    console.log("Submitting form data:", formData);
+    console.log("Form submitted successfully");
   },
 }));
 
 interface BidState {
   currentBid: number | null;
   setBid: (amount: number) => void;
-  placeBid: (eventId: number, amount: number) => Promise<void>;
 }
 
 export const useBidStore = create<BidState>()(
   devtools((set) => ({
     currentBid: null,
     setBid: (amount) => set({ currentBid: amount }),
-    placeBid: async (eventId, amount) => {
-      console.log(`Placed bid of ${amount} for event ${eventId}`);
-      set({ currentBid: amount });
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-    },
   }))
 );

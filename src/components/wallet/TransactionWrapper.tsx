@@ -1,5 +1,10 @@
 "use client";
-import { CONTRACT_ABI, CONTRACT_ADDRESS } from "@/utils/contract";
+import {
+  CONTRACT_ABI,
+  CONTRACT_ADDRESS,
+  TOKEN_ABI,
+  TOKEN_ADDRESS,
+} from "@/utils/contract";
 import {
   Transaction,
   TransactionButton,
@@ -11,19 +16,39 @@ import type {
   TransactionError,
   TransactionResponse,
 } from "@coinbase/onchainkit/transaction";
-import type { Address, ContractFunctionParameters } from "viem";
+import {
+  parseEther,
+  type Address,
+  type ContractFunctionParameters,
+} from "viem";
 import { baseSepolia } from "viem/chains";
 
 interface TransactionWrapperProps {
   functionName: string;
   args: any[];
+  onSuccess: () => void;
+  onError: () => void;
+  isApprovalTx?: boolean;
+  approvalAmount?: number;
+  text?: string;
 }
 
 export default function TransactionWrapper({
   functionName,
   args,
+  onSuccess,
+  onError,
+  isApprovalTx,
+  approvalAmount,
+  text,
 }: TransactionWrapperProps) {
   const contracts = [
+    isApprovalTx && {
+      address: TOKEN_ADDRESS,
+      abi: TOKEN_ABI,
+      functionName: "approve",
+      args: [CONTRACT_ADDRESS, approvalAmount ?? parseEther("1000")],
+    },
     {
       address: CONTRACT_ADDRESS,
       abi: CONTRACT_ABI,
@@ -36,26 +61,22 @@ export default function TransactionWrapper({
     console.error("Transaction error:", err);
   };
 
-  const handleSuccess = (response: TransactionResponse) => {
-    console.log("Transaction successful", response);
-  };
+  console.log("contracts");
 
   return (
     <div className='flex '>
       <Transaction
-        capabilities={{
-          paymasterService: {
-            url: process.env.NEXT_PUBLIC_PAYMASTER_URL!,
-          },
-        }}
         contracts={contracts}
         chainId={baseSepolia.id}
         onError={handleError}
-        onSuccess={handleSuccess}
+        onSuccess={onSuccess}
+        onStatus={(status) => {
+          console.log("Transaction status", status);
+        }}
       >
         <TransactionButton
           className='mt-0 mr-auto ml-auto max-w-full text-[white]'
-          text='List now'
+          text={text ?? "List now"}
         />
       </Transaction>
     </div>
