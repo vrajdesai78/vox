@@ -1,11 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import exploreData from "../../utils/explore";
 
 type TabOption = "All Events" | "Sports" | "Theatre" | "Festivals";
+
+interface Event {
+  id: number;
+  title: string;
+  bgImage: string;
+  category?: string;
+}
 
 const Tab: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState<TabOption>("All Events");
@@ -18,24 +25,27 @@ const Tab: React.FC = () => {
 
   const renderContent = () => {
     if (filteredData.length === 0) {
-      return <p>No events found for {selectedTab}.</p>;
+      return <p className="text-center text-gray-500 mt-8">No events found for {selectedTab}.</p>;
     }
 
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-        {filteredData.map((event) => (
-          <div key={event.id} className="bg-[#F6F6F6] h-48 shadow-md rounded-lg p-2 border-[1px] border-[#DADADA]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {filteredData.map((event: Event) => (
+          <div key={event.id} className="relative cursor-pointer rounded-lg overflow-hidden aspect-square">
             <Image
               src={event.bgImage}
               alt={event.title}
-              width={400}
-              height={200}
-              className="rounded-md"
+              layout="fill"
+              objectFit="cover"
+              className="rounded-lg"
             />
-            <h3 className="text-xl font-semibold mt-4 font-bricolage">{event.title}</h3>
-            {event.category && (
-              <p className="text-gray-500 mt-1 border-gray-500 bg-gray-100 px-1 border-dashed flex justify-center w-32 rounded-md border-[1px]">{event.category}</p>
-            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent rounded-lg"></div>
+            <div className="absolute bottom-0 left-0 p-4 text-white">
+              <h3 className="text-xl font-semibold font-bricolage">{event.title}</h3>
+              {event.category && (
+                <p className="text-sm mt-1 bg-white/20 px-2 py-1 rounded-full inline-block">{event.category}</p>
+              )}
+            </div>
           </div>
         ))}
       </div>
@@ -43,8 +53,8 @@ const Tab: React.FC = () => {
   };
 
   return (
-    <div className="w-full px-4 sm:px-6 lg:px-8">
-      <div className="hidden sm:flex flex-row justify-between items-start sm:items-center">
+    <div className="w-full px-4 border-t-2 border-t-black/10 pt-10 sm:px-6 lg:px-8">
+      <div className="hidden sm:flex flex-row justify-between items-start sm:items-center mb-6">
         <div className="flex flex-col sm:flex-row space-x-0 space-y-2 sm:space-y-0 sm:space-x-4">
           {tabs.map((tab) => (
             <button
@@ -52,7 +62,7 @@ const Tab: React.FC = () => {
               className={`py-2 px-4 text-left sm:text-center ${
                 selectedTab === tab
                   ? "border-b-2 border-black font-semibold"
-                  : "text-gray-500"
+                  : "text-gray-500 hover:text-gray-700"
               }`}
               onClick={() => setSelectedTab(tab)}
             >
@@ -61,27 +71,25 @@ const Tab: React.FC = () => {
           ))}
         </div>
 
-        <button className="mt-4 sm:mt-0 flex items-center text-gray-500 gap-2 bg-[#F8F8F8] py-[6px] px-[14px] rounded-2xl shadow-md border-2 border-[#FFFFFF]">
-          <Image src="/explore/filter.svg" alt="filter" width={10} height={10} />
+        <button className="mt-4 sm:mt-0 flex items-center text-gray-500 gap-2 bg-[#F8F8F8] py-2 px-4 rounded-full shadow-sm border border-gray-200 hover:bg-gray-100 transition-colors duration-200">
+          <Image src="/explore/filter.svg" alt="filter" width={16} height={16} />
           Filter
         </button>
       </div>
 
-      <div className="sm:hidden relative">
-        <div className="relative">
-          <select
-            className="w-full py-2 pl-4 pr-10 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-black focus:border-black appearance-none transition duration-150 ease-in-out"
-            value={selectedTab}
-            onChange={(e) => setSelectedTab(e.target.value as TabOption)}
-          >
-            {tabs.map((tab) => (
-              <option key={tab} value={tab} className="text-gray-700">
-                {tab}
-              </option>
-            ))}
-          </select>
-          <ChevronDown className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none text-gray-500" />
-        </div>
+      <div className="sm:hidden relative mb-6">
+        <select
+          className="w-full py-2 pl-4 pr-10 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-black focus:border-black appearance-none transition duration-150 ease-in-out"
+          value={selectedTab}
+          onChange={(e) => setSelectedTab(e.target.value as TabOption)}
+        >
+          {tabs.map((tab) => (
+            <option key={tab} value={tab} className="text-gray-700">
+              {tab}
+            </option>
+          ))}
+        </select>
+        <ChevronDown className="absolute top-1/2 right-3 -translate-y-1/2 pointer-events-none text-gray-500" />
       </div>
 
       <div className="mt-6">{renderContent()}</div>

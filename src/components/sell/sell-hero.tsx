@@ -12,7 +12,7 @@ const SellHero: React.FC = () => {
   };
 
   return (
-    <div className='relative w-full flex flex-col'>
+    <div className='relative border-t-[2px] border-gray-100 pt-8 w-full flex flex-col'>
       <div className='flex flex-1 justify-center items-center'>
         <div className='flex w-full max-w-xl flex-col items-center gap-3 px-4'>
           <h1 className='text-black text-2xl lg:text-5xl lg:text-nowrap text-center font-semibold font-bricolage leading-tight'>

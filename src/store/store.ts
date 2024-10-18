@@ -3,6 +3,10 @@ import buy from "@/utils/buy";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
+export const generateSlug = (title: string): string => {
+  return title.toLowerCase().replace(/\s+/g, '-');
+};
+
 export interface SellItem {
   id: number;
   title: string;
@@ -168,6 +172,7 @@ interface SellFormState extends FormData {
   setField: <K extends keyof FormData>(key: K, value: FormData[K]) => void;
   setUploadedFile: (file: File | null) => void;
   validateForm: () => boolean;
+  submitForm: () => Promise<void>;
 }
 
 export const useSellFormStore = create<SellFormState>((set, get) => ({

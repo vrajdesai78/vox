@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import BuyCard from "../cards/buy-card";
-import { useBuyStore } from "../../store/store";
+import { useBuyStore, generateSlug } from "../../store/store";
 import { useRouter } from "next/navigation";
 
 const BuyGrid = () => {
@@ -13,8 +13,9 @@ const BuyGrid = () => {
     fetchItems();
   }, [fetchItems]);
 
-  const handleCardClick = (id: number) => {
-    router.push(`/buy/${id}`);
+  const handleCardClick = (title: string) => {
+    const slug = generateSlug(title);
+    router.push(`/buy/${slug}`);
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -26,7 +27,7 @@ const BuyGrid = () => {
         <BuyCard
           key={item.id}
           {...item}
-          onClick={() => handleCardClick(item.id)}
+          onClick={() => handleCardClick(item.title)}
         />
       ))}
     </div>

@@ -1,8 +1,7 @@
-"use client";
-
 import React from "react";
 import Image from "next/image";
 import { MapPin } from "lucide-react";
+import { generateSlug } from "@/store/store";
 
 interface BuyCardProps {
   id: number;
@@ -14,7 +13,7 @@ interface BuyCardProps {
     status: boolean;
     metric: string;
   };
-  onClick: (id: number) => void;
+  onClick: (slug: string) => void;
 }
 
 const BuyCard: React.FC<BuyCardProps> = ({
@@ -27,7 +26,7 @@ const BuyCard: React.FC<BuyCardProps> = ({
   onClick,
 }) => {
   const handleClick = () => {
-    onClick(id);
+    onClick(generateSlug(title));
   };
 
   return (
@@ -44,15 +43,15 @@ const BuyCard: React.FC<BuyCardProps> = ({
           className="rounded-t-lg"
         />
       </div>
-      <div className="p-3 font-bricolage">
+      <div className="py-3 font-bricolage">
         <div className="flex justify-between">
           <div className="flex flex-col gap-2">
-            <div className="text-2xl font-bold flex justify-start">{title}</div>
-            <div className="flex items-center text-gray-600">
+            <div className="text-2xl font-semibold flex justify-start">{title}</div>
+            <div className="flex items-center text-[#616161]">
               <MapPin />
               <span>{location}</span>
             </div>
-            <p className="text-gray-600">{dateRange}</p>
+            <p className="text-[#616161]">{dateRange}</p>
           </div>
           <div>
             {trending.status && (

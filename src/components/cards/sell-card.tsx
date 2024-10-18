@@ -14,7 +14,7 @@ interface SellCardProps {
     status: boolean;
     metric: string;
   };
-  onClick: (id: number) => void;
+  onClick: (title: string) => void;
 }
 
 const SellCard: React.FC<SellCardProps> = ({
@@ -27,7 +27,7 @@ const SellCard: React.FC<SellCardProps> = ({
   onClick,
 }) => {
   const handleClick = () => {
-    onClick(id);
+    onClick(title);
   };
 
   return (
@@ -44,10 +44,10 @@ const SellCard: React.FC<SellCardProps> = ({
           className="rounded-t-lg"
         />
       </div>
-      <div className="p-3 font-bricolage">
+      <div className="py-3 font-bricolage">
         <div className="flex justify-between">
           <div className="flex flex-col gap-2">
-            <div className="text-2xl font-bold flex justify-start">{title}</div>
+            <div className="text-2xl font-semibold flex justify-start">{title}</div>
             <div className="flex items-center text-gray-600">
               <MapPin />
               <span>{location}</span>

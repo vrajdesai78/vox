@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useBuyStore, useBidStore, BuyItem } from "@/store/store";
+import { useBuyStore, useBidStore, BuyItem, generateSlug } from "@/store/store";
 import { Navbar } from "@/components/navbar/navbar";
 import DescriptionBox from "@/components/buy-section/description-box";
 import BidSection from "@/components/buy-section/bid-section";
@@ -10,9 +10,9 @@ import FullFooterWithBanner from "@/components/footer/full-footer";
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
 
-const BidPage: React.FC<{ params: { id: string } }> = ({ params }) => {
+const BidPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
   const router = useRouter();
-  const { id } = params;
+  const { slug } = params;
   const { items, fetchItems } = useBuyStore();
   const { currentBid, setBid } = useBidStore();
   const [item, setItem] = useState<BuyItem | null>(null);
@@ -27,13 +27,13 @@ const BidPage: React.FC<{ params: { id: string } }> = ({ params }) => {
   }, [fetchItems, items.length]);
 
   useEffect(() => {
-    if (id && items.length > 0) {
-      const foundItem = items.find((item) => item.id.toString() === id);
+    if (slug && items.length > 0) {
+      const foundItem = items.find((item) => generateSlug(item.title) === slug);
       setItem(foundItem || null);
       setSelectedShow(foundItem?.shows[0] || null);
       setBidAmount(foundItem?.shows[0].price.toString() || '');
     }
-  }, [id, items]);
+  }, [slug, items]);
 
   const handleShowSelect = (show: BuyItem['shows'][0]) => {
     setSelectedShow(show);
@@ -48,8 +48,7 @@ const BidPage: React.FC<{ params: { id: string } }> = ({ params }) => {
     if (!item) return;
     setIsLoading(true);
     try {
-      
-      router.push(`/buy/${item.id}`);
+      router.push(`/buy/${generateSlug(item.title)}`);
     } catch (error) {
       console.error('Failed to place bid:', error);
     } finally {

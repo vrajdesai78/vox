@@ -1,20 +1,21 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useBuyStore } from "../../store/store";
+import { useSellStore, generateSlug } from "../../store/store";
 import { useRouter } from "next/navigation";
 import SellCard from "../cards/sell-card";
 
 const SellGrid = () => {
-  const { items, isLoading, error, fetchItems } = useBuyStore();
+  const { items, isLoading, error, fetchItems } = useSellStore();
   const router = useRouter();
 
   useEffect(() => {
     fetchItems();
   }, [fetchItems]);
 
-  const handleCardClick = (id: number) => {
-    router.push(`/sell/${id}`);
+  const handleCardClick = (title: string) => {
+    const slug = generateSlug(title);
+    router.push(`/sell/${slug}`);
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -26,7 +27,7 @@ const SellGrid = () => {
         <SellCard
           key={item.id}
           {...item}
-          onClick={() => handleCardClick(item.id)}
+          onClick={() => handleCardClick(item.title)}
         />
       ))}
     </div>

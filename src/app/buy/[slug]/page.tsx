@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { useBuyStore, BuyItem } from "@/store/store";
+import { useBuyStore, BuyItem, generateSlug } from "@/store/store";
 import { useBidStore } from "@/store/store";
 import DescriptionBox from "@/components/buy-section/description-box";
 import { Navbar } from "@/components/navbar/navbar";
@@ -11,7 +11,7 @@ import Image from "next/image";
 import FullFooterWithBanner from "@/components/footer/full-footer";
 import BuyModal from "@/components/buy-section/buy-modal";
 
-const BuyItemPage: React.FC<{ params: { id: string } }> = ({ params }) => {
+const BuyItemPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
   const { items, fetchItems } = useBuyStore();
   const { currentBid } = useBidStore();
   const [item, setItem] = useState<BuyItem | null>(null);
@@ -26,11 +26,11 @@ const BuyItemPage: React.FC<{ params: { id: string } }> = ({ params }) => {
   }, [fetchItems, items.length]);
 
   useEffect(() => {
-    if (params.id && items.length > 0) {
-      const foundItem = items.find((item) => item.id.toString() === params.id);
+    if (params.slug && items.length > 0) {
+      const foundItem = items.find((item) => generateSlug(item.title) === params.slug);
       setItem(foundItem || null);
     }
-  }, [params.id, items]);
+  }, [params.slug, items]);
 
   const handleTicketSelect = (ticket: BuyItem['mostSoldTickets'][0]) => {
     setSelectedTicket(ticket);

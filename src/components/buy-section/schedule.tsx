@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { generateSlug } from '@/store/store';
 
 interface Show {
   date: string;
@@ -47,7 +48,7 @@ const Schedule: React.FC<ScheduleProps> = ({ event }) => {
                 Buy from {show.currency}{show.price.toLocaleString()}
               </button>
               <Link 
-                href={`/buy/bid/${event.id}`} 
+                href={`/buy/bid/${generateSlug(event.title)}`} 
                 className="border border-black text-black py-2 px-4 rounded-md hover:bg-gray-200 transition-colors w-full sm:w-auto text-sm text-center"
               >
                 Place bid

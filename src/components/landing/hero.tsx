@@ -39,9 +39,9 @@ const Hero = () => {
               </div>
               <div>
                 {isConnected ? (
-                  <WalletDropdownDisconnect />
+                  <WalletDropdownDisconnect className="h-11 w-full px-4 py-2 bg-gradient-to-b from-[#FFFFFF] to-gray-100w rounded-lg shadow-inner border border-black"/>
                 ) : (
-                  <ConnectWallet className='w-full'>
+                  <ConnectWallet className='h-11 w-32 px-4 py-2 bg-gradient-to-b from-[#272727] to-black rounded-lg shadow-inner border border-black'>
                     <ConnectWalletText>Login</ConnectWalletText>
                   </ConnectWallet>
                 )}
