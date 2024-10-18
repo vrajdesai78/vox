@@ -6,12 +6,12 @@ import { useBuyStore, generateSlug } from "../../store/store";
 import { useRouter } from "next/navigation";
 
 const BuyGrid = () => {
-  const { items, isLoading, error, fetchItems } = useBuyStore();
+  const { items, isLoading, error, fetchConcerts } = useBuyStore();
   const router = useRouter();
 
   useEffect(() => {
-    fetchItems();
-  }, [fetchItems]);
+    fetchConcerts();
+  }, [fetchConcerts]); 
 
   const handleCardClick = (title: string) => {
     const slug = generateSlug(title);
@@ -23,9 +23,9 @@ const BuyGrid = () => {
 
   return (
     <div className='grid p-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
-      {items.map((item) => (
+      {items.map((item, idx) => (
         <BuyCard
-          key={item.id}
+          key={idx}
           {...item}
           onClick={() => handleCardClick(item.title)}
         />

@@ -2,13 +2,13 @@ import events from "@/utils/events";
 import buy from "@/utils/buy";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
+import { getShowsByEventId, getShowsByName } from "@/app/_actions";
 
 export const generateSlug = (title: string): string => {
-  return title.toLowerCase().replace(/\s+/g, '-');
+  return title.toLowerCase().replace(/\s+/g, "-");
 };
 
 export interface SellItem {
-  id: number;
   title: string;
   bgImage: string;
   description: string;
@@ -19,6 +19,7 @@ export interface SellItem {
     metric: string;
   };
   shows: Array<{
+    id: number;
     date: string;
     day: string;
     time: string;
@@ -60,7 +61,7 @@ export const useSellStore = create<SellState>()(
 );
 
 export interface BuyItem {
-  id: number;
+  id?: number;
   title: string;
   bgImage: string;
   description: string;
@@ -71,6 +72,8 @@ export interface BuyItem {
     metric: string;
   };
   shows: Array<{
+    id: number;
+    ticketId?: number;
     date: string;
     day: string;
     time: string;
@@ -91,7 +94,8 @@ interface BuyState {
   items: BuyItem[];
   isLoading: boolean;
   error: string | null;
-  fetchItems: () => Promise<void>;
+  fetchConcerts: () => Promise<void>;
+  setItems: (items: BuyItem[]) => void;
 }
 
 export const useBuyStore = create<BuyState>()(
@@ -102,12 +106,53 @@ export const useBuyStore = create<BuyState>()(
     fetchItems: async () => {
       set({ isLoading: true });
       try {
-        const data = buy;
-        set({ items: data, isLoading: false });
+        const buyData = buy[0];
+        const formattedData = {
+          title: buyData.title,
+          bgImage: buyData.bgImage,
+          description: buyData.description,
+          location: buyData.location,
+          dateRange: buyData.dateRange,
+          trending: buyData.trending,
+          shows: buyData.shows.map(async (show) => {
+            const showData = await getShowsByEventId(show.id);
+            return {
+              id: show.id,
+              ticketId: showData.ticketId,
+              date: show.date,
+              day: show.day,
+              time: show.time,
+              price: showData.price ?? 0,
+              currency: show.currency,
+              bestSelling: show.bestSelling,
+            };
+          }),
+          mostSoldTickets: buyData.mostSoldTickets,
+          otherLocations: buyData.otherLocations,
+        };
+
+        const resolvedShows = await Promise.all(formattedData.shows);
+
+        const finalFormattedData = {
+          ...formattedData,
+          shows: resolvedShows,
+        };
+        console.log("finalFormatted", finalFormattedData);
+        set({ items: [finalFormattedData], isLoading: false });
       } catch (error) {
         set({ error: "Failed to fetch buy items", isLoading: false });
       }
     },
+    fetchConcerts: async () => {
+      set({ isLoading: true });
+      try {
+        const data = buy;
+        set({ items: data, isLoading: false });
+      } catch (error) {
+        set({ error: "Failed to fetch sell items", isLoading: false });
+      }
+    },
+    setItems: (items) => set({ items }),
   }))
 );
 

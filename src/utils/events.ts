@@ -1,6 +1,5 @@
 const events = [
   {
-    id: 1,
     title: "Coldplay",
     bgImage: "/buy/coldplay.jpg",
     description:
@@ -13,6 +12,7 @@ const events = [
     },
     shows: [
       {
+        id: 1,
         date: "18 January 2025",
         day: "Friday",
         time: "12:30 PM",
@@ -20,6 +20,7 @@ const events = [
         currency: "₹",
       },
       {
+        id: 2,
         date: "19 January 2025",
         day: "Saturday",
         time: "12:30 PM",
@@ -28,6 +29,7 @@ const events = [
         bestSelling: true,
       },
       {
+        id: 3,
         date: "21 January 2025",
         day: "Monday",
         time: "12:30 PM",
@@ -64,7 +66,6 @@ const events = [
     otherLocations: ["India", "Vietnam", "Singapore"],
   },
   {
-    id: 2,
     title: "Ed Sheeran",
     bgImage: "/buy/coldplay.jpg",
     description:
@@ -77,6 +78,7 @@ const events = [
     },
     shows: [
       {
+        id: 4,
         date: "18 January 2025",
         day: "Friday",
         time: "12:30 PM",
@@ -84,6 +86,7 @@ const events = [
         currency: "₹",
       },
       {
+        id: 5,
         date: "19 January 2025",
         day: "Saturday",
         time: "12:30 PM",
@@ -92,6 +95,7 @@ const events = [
         bestSelling: true,
       },
       {
+        id: 6,
         date: "21 January 2025",
         day: "Monday",
         time: "12:30 PM",

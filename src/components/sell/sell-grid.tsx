@@ -23,9 +23,9 @@ const SellGrid = () => {
 
   return (
     <div className='grid p-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
-      {items.map((item) => (
+      {items.map((item, idx) => (
         <SellCard
-          key={item.id}
+          key={idx}
           {...item}
           onClick={() => handleCardClick(item.title)}
         />

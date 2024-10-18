@@ -1,6 +1,5 @@
 const buy = [
   {
-    id: 1,
     title: "Coldplay",
     bgImage: "/buy/coldplay.jpg",
     description:
@@ -13,6 +12,7 @@ const buy = [
     },
     shows: [
       {
+        id: 1,
         date: "18 January 2025",
         day: "Friday",
         time: "12:30 PM",
@@ -20,6 +20,7 @@ const buy = [
         currency: "₹",
       },
       {
+        id: 2,
         date: "19 January 2025",
         day: "Saturday",
         time: "12:30 PM",
@@ -28,6 +29,7 @@ const buy = [
         bestSelling: true,
       },
       {
+        id: 3,
         date: "21 January 2025",
         day: "Monday",
         time: "12:30 PM",

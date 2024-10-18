@@ -43,19 +43,23 @@ export default function TransactionWrapper({
   text,
 }: TransactionWrapperProps) {
   const contracts = [
-    isApprovalTx && {
-      address: TOKEN_ADDRESS,
-      abi: TOKEN_ABI,
-      functionName: "approve",
-      args: [CONTRACT_ADDRESS, approvalAmount ?? parseEther("1000")],
-    },
+    ...(isApprovalTx
+      ? [
+          {
+            address: TOKEN_ADDRESS,
+            abi: TOKEN_ABI,
+            functionName: "approve",
+            args: [CONTRACT_ADDRESS, approvalAmount ?? parseEther("1000")],
+          },
+        ]
+      : []),
     {
       address: CONTRACT_ADDRESS,
       abi: CONTRACT_ABI,
       functionName,
       args,
     },
-  ] as unknown as ContractFunctionParameters[];
+  ] as ContractFunctionParameters[];
 
   const handleError = (err: TransactionError) => {
     console.error("Transaction error:", err);

@@ -1,9 +1,8 @@
-import Head from "next/head";
 import { Navbar } from "@/components/navbar/navbar";
 import FooterWithBanner from "@/components/footer/footer";
 import SellHero from "@/components/sell/sell-hero";
 
-export default function Explore() {
+export default async function Explore() {
   return (
     <>
       <main className='w-full min-h-screen flex justify-center'>

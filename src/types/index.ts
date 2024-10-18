@@ -6,4 +6,12 @@ export type TTicket = {
     row?: number;
     section?: string;
   };
+  price: number;
+};
+
+export type TEventDetails = {
+  id: number;
+  name: string;
+  time: string;
+  location: string;
 };

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from "react";
 import { useBuyStore, BuyItem, generateSlug } from "@/store/store";
@@ -10,29 +10,41 @@ import MostSoldTickets from "@/components/buy-section/most-sold-tickets";
 import Image from "next/image";
 import FullFooterWithBanner from "@/components/footer/full-footer";
 import BuyModal from "@/components/buy-section/buy-modal";
+import { useQuery } from "@tanstack/react-query";
+import { getShows } from "@/app/_actions";
 
 const BuyItemPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
-  const { items, fetchItems } = useBuyStore();
   const { currentBid } = useBidStore();
   const [item, setItem] = useState<BuyItem | null>(null);
+  const { items, setItems } = useBuyStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedShow, setSelectedShow] = useState<BuyItem['shows'][0] | null>(null);
-  const [selectedTicket, setSelectedTicket] = useState<BuyItem['mostSoldTickets'][0] | null>(null);
+  const [selectedShow, setSelectedShow] = useState<BuyItem["shows"][0] | null>(
+    null
+  );
+  const [selectedTicket, setSelectedTicket] = useState<
+    BuyItem["mostSoldTickets"][0] | null
+  >(null);
 
   useEffect(() => {
-    if (items.length === 0) {
-      fetchItems();
+    if (items) {
+      const getData = async () => {
+        const shows = await getShows();
+        setItems(shows);
+      };
+      getData();
     }
-  }, [fetchItems, items.length]);
+  }, []);
 
   useEffect(() => {
-    if (params.slug && items.length > 0) {
-      const foundItem = items.find((item) => generateSlug(item.title) === params.slug);
+    if (params.slug && items && items.length > 0) {
+      const foundItem = items.find(
+        (item) => generateSlug(item.title) === params.slug
+      );
       setItem(foundItem || null);
     }
   }, [params.slug, items]);
 
-  const handleTicketSelect = (ticket: BuyItem['mostSoldTickets'][0]) => {
+  const handleTicketSelect = (ticket: BuyItem["mostSoldTickets"][0]) => {
     setSelectedTicket(ticket);
     setSelectedShow(item?.shows[0] || null);
     setIsModalOpen(true);
@@ -42,7 +54,7 @@ const BuyItemPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
 
   return (
     <>
-      <div className="container mx-auto max-w-6xl px-2 lg:px-8 py-8 flex flex-col gap-4 border-x-2 min-h-screen">
+      <div className='container mx-auto max-w-6xl px-2 lg:px-8 py-8 flex flex-col gap-4 border-x-2 min-h-screen'>
         <Navbar />
         <DescriptionBox
           title={item.title}
@@ -53,39 +65,50 @@ const BuyItemPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
           imageUrl={item.bgImage}
         />
         {currentBid && (
-          <div className="bg-blue-100 p-4 rounded-lg mb-4">
-            <p className="text-blue-800 font-semibold">Your current bid: {item.shows[0].currency}{currentBid}</p>
+          <div className='bg-blue-100 p-4 rounded-lg mb-4'>
+            <p className='text-blue-800 font-semibold'>
+              Your current bid: {item.shows[0].currency}
+              {currentBid}
+            </p>
           </div>
         )}
-        <div className="flex flex-col gap-2 pt-6">
-          <h2 className="text-2xl font-semibold mb-2 font-bricolage">
+        <div className='flex flex-col gap-2 pt-6'>
+          <h2 className='text-2xl font-semibold mb-2 font-bricolage'>
             Choose a Show
           </h2>
-          <Schedule event={item}/>
+          <Schedule event={item} />
         </div>
-        <div className="flex flex-col gap-2 pt-6">
-          <h2 className="text-2xl font-semibold mb-2 font-bricolage">
+        <div className='flex flex-col gap-2 pt-6'>
+          <h2 className='text-2xl font-semibold mb-2 font-bricolage'>
             Most sold tickets
           </h2>
-          <MostSoldTickets tickets={item.mostSoldTickets} onTicketSelect={handleTicketSelect} />
+          <MostSoldTickets
+            tickets={item.mostSoldTickets}
+            onTicketSelect={handleTicketSelect}
+          />
         </div>
-        <div className="flex flex-col gap-2 pt-6">
-          <h2 className="text-2xl font-semibold mb-2 font-bricolage">
+        <div className='flex flex-col gap-2 pt-6'>
+          <h2 className='text-2xl font-semibold mb-2 font-bricolage'>
             Other locations around the world
           </h2>
-          <Image src="/buy/map.svg" alt="map" width={900} height={600} className="flex justify-center w-full"/>
+          <Image
+            src='/buy/map.svg'
+            alt='map'
+            width={900}
+            height={600}
+            className='flex justify-center w-full'
+          />
         </div>
-      </div> 
+      </div>
       <div>
         <FullFooterWithBanner />
       </div>
       {isModalOpen && item && (selectedShow || selectedTicket) && (
         <BuyModal
           event={{
-            id: item.id,
             title: item.title,
             location: item.location,
-            mostSoldTickets: item.mostSoldTickets
+            mostSoldTickets: item.mostSoldTickets,
           }}
           show={selectedShow || item.shows[0]}
           selectedTicket={selectedTicket}

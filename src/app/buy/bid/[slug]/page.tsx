@@ -7,35 +7,37 @@ import DescriptionBox from "@/components/buy-section/description-box";
 import BidSection from "@/components/buy-section/bid-section";
 import MostSoldTickets from "@/components/buy-section/most-sold-tickets";
 import FullFooterWithBanner from "@/components/footer/full-footer";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 const BidPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
   const router = useRouter();
   const { slug } = params;
-  const { items, fetchItems } = useBuyStore();
+  const { items, fetchConcerts } = useBuyStore();
   const { currentBid, setBid } = useBidStore();
   const [item, setItem] = useState<BuyItem | null>(null);
-  const [selectedShow, setSelectedShow] = useState<BuyItem['shows'][0] | null>(null);
-  const [bidAmount, setBidAmount] = useState<string>('');
+  const [selectedShow, setSelectedShow] = useState<BuyItem["shows"][0] | null>(
+    null
+  );
+  const [bidAmount, setBidAmount] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (items.length === 0) {
-      fetchItems();
+      fetchConcerts();
     }
-  }, [fetchItems, items.length]);
+  }, [fetchConcerts, items.length]);
 
   useEffect(() => {
     if (slug && items.length > 0) {
       const foundItem = items.find((item) => generateSlug(item.title) === slug);
       setItem(foundItem || null);
       setSelectedShow(foundItem?.shows[0] || null);
-      setBidAmount(foundItem?.shows[0].price.toString() || '');
+      setBidAmount(foundItem?.shows[0].price.toString() || "");
     }
   }, [slug, items]);
 
-  const handleShowSelect = (show: BuyItem['shows'][0]) => {
+  const handleShowSelect = (show: BuyItem["shows"][0]) => {
     setSelectedShow(show);
     setBidAmount(show.price.toString());
   };
@@ -57,14 +59,14 @@ const BidPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
         selectedShow: selectedShow,
         bidAmount: bidAmount,
       });
-      
+
       // You might want to add actual bid placement logic here
       // For now, we'll just redirect after a short delay
       setTimeout(() => {
         router.push(`/buy/${generateSlug(item.title)}`);
       }, 2000);
     } catch (error) {
-      console.error('Failed to place bid:', error);
+      console.error("Failed to place bid:", error);
     } finally {
       setIsLoading(false);
     }
@@ -74,13 +76,13 @@ const BidPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
 
   return (
     <>
-      <div className="container mx-auto max-w-6xl px-2 lg:px-8 py-8 flex flex-col gap-4 border-x-2 min-h-screen">
+      <div className='container mx-auto max-w-6xl px-2 lg:px-8 py-8 flex flex-col gap-4 border-x-2 min-h-screen'>
         <Navbar />
         <DescriptionBox
           title={item.title}
           location={item.location}
           dateRange={item.dateRange}
-          isTrending={item.trending.status} 
+          isTrending={item.trending.status}
           description={item.description}
           imageUrl={item.bgImage}
         />
@@ -97,15 +99,24 @@ const BidPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
             location: item.location,
           }}
         />
-        <div className="mt-8">
-          <h2 className="text-2xl font-semibold mb-4">Most Sold Tickets</h2>
-          <MostSoldTickets tickets={item.mostSoldTickets} onTicketSelect={() => {}} />
+        <div className='mt-8'>
+          <h2 className='text-2xl font-semibold mb-4'>Most Sold Tickets</h2>
+          <MostSoldTickets
+            tickets={item.mostSoldTickets}
+            onTicketSelect={() => {}}
+          />
         </div>
-        <div className="flex flex-col gap-2 pt-6">
-          <h2 className="text-2xl font-semibold mb-2 font-bricolage">
+        <div className='flex flex-col gap-2 pt-6'>
+          <h2 className='text-2xl font-semibold mb-2 font-bricolage'>
             Other locations around the world
           </h2>
-          <Image src="/buy/map.svg" alt="map" width={900} height={600} className="flex justify-center w-full"/>
+          <Image
+            src='/buy/map.svg'
+            alt='map'
+            width={900}
+            height={600}
+            className='flex justify-center w-full'
+          />
         </div>
       </div>
       <FullFooterWithBanner />
