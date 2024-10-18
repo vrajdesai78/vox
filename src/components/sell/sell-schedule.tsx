@@ -28,6 +28,8 @@ const SellSchedule: React.FC<ScheduleProps> = ({ event }) => {
   const handleShowSelect = (show: Show) => {
     const queryParams = new URLSearchParams({
       eventId: event.id.toString(),
+      eventName: encodeURIComponent(event.title),
+      eventLocation: encodeURIComponent(event.location),
       showDate: show.date,
       showTime: show.time,
       showPrice: show.price.toString(),

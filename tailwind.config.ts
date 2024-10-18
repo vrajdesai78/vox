@@ -11,7 +11,7 @@ const config: Config = {
         'custom-gray': '#616161',
       },
       fontFamily: {
-        bricolage: ['"Bricolage Grotesque"', 'sans-serif'],
+        'bricolage': ['"Bricolage Grotesque"', 'sans-serif'],
         inter: ['"Inter"', 'sans-serif'],
       },
     },

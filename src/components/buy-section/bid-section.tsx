@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BuyItem } from "@/store/store";
-import { ChevronUp, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import BidModal from "./bid-modal";
 
 interface BidSectionProps {
   shows: BuyItem["shows"];
@@ -10,6 +11,10 @@ interface BidSectionProps {
   onBidAmountChange: (amount: string) => void;
   onPlaceBid: () => void;
   isLoading: boolean;
+  event: {
+    title: string;
+    location: string;
+  };
 }
 
 const BidSection: React.FC<BidSectionProps> = ({
@@ -20,8 +25,10 @@ const BidSection: React.FC<BidSectionProps> = ({
   onBidAmountChange,
   onPlaceBid,
   isLoading,
+  event,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -38,6 +45,18 @@ const BidSection: React.FC<BidSectionProps> = ({
   const decrementBid = () => {
     const newBid = Math.max(parseFloat(bidAmount) - 1, selectedShow.price);
     onBidAmountChange(newBid.toString());
+  };
+
+  const handlePlaceBid = () => {
+    onPlaceBid();
+    setIsModalOpen(true);
+    
+    // Console log the final data
+    console.log("Bid placed:", {
+      event: event,
+      selectedShow: selectedShow,
+      bidAmount: bidAmount,
+    });
   };
 
   return (
@@ -70,43 +89,41 @@ const BidSection: React.FC<BidSectionProps> = ({
           )}
         </div>
       </div>
-      <div className='flex flex-col gap-2 pt-8'>
+      <div className='flex flex-col gap-4 pt-8'>
         <div className='relative'>
           <input
             type='text'
-            value={`${selectedShow.currency}${parseFloat(
-              bidAmount
-            ).toLocaleString()}`}
+            value={`${selectedShow.currency}${parseFloat(bidAmount).toLocaleString()}`}
             onChange={(e) => {
               const value = e.target.value.replace(/[^0-9]/g, "");
               onBidAmountChange(value);
             }}
             className='w-full border-2 border-gray-300 rounded-md py-2 px-4 text-lg text-[#111111] focus:outline-none focus:border-black'
           />
-          <div className='absolute right-2 top-1/2 transform -translate-y-1/2 flex flex-col'>
-            <button
-              onClick={incrementBid}
-              className='text-gray-500 hover:text-black focus:outline-none'
-            >
-              <ChevronUp size={20} />
+          <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex flex-col">
+            <button onClick={incrementBid} className="text-gray-500 hover:text-gray-700">
+              <ChevronDown size={20} className="transform rotate-180" />
             </button>
-            <button
-              onClick={decrementBid}
-              className='text-gray-500 hover:text-black focus:outline-none'
-            >
+            <button onClick={decrementBid} className="text-gray-500 hover:text-gray-700">
               <ChevronDown size={20} />
             </button>
           </div>
         </div>
-        {/* <button
+        <button
           className="w-full bg-gradient-to-b from-[#222222] to-[#111111] text-white py-3 rounded-md hover:bg-gray-800 transition-colors disabled:bg-gray-400 relative overflow-hidden"
-          onClick={onPlaceBid}
+          onClick={handlePlaceBid}
           disabled={isLoading || parseFloat(bidAmount) < selectedShow.price}
         >
           <span className="relative z-10">{isLoading ? "Placing a Bid.." : "Place Bid"}</span>
-        </button> */}
-        {/* <TransactionWrapper functionName="placeBid" args={[1, parseFloat(bidAmount)]} /> */}
+        </button>
       </div>
+      <BidModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        event={event}
+        selectedShow={selectedShow}
+        bidAmount={bidAmount}
+      />
     </div>
   );
 };

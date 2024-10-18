@@ -45,10 +45,24 @@ const BidPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
   };
 
   const handlePlaceBid = async () => {
-    if (!item) return;
+    if (!item || !selectedShow) return;
     setIsLoading(true);
     try {
-      router.push(`/buy/${generateSlug(item.title)}`);
+      // Simulating bid placement
+      console.log("Bid placed:", {
+        event: {
+          title: item.title,
+          location: item.location,
+        },
+        selectedShow: selectedShow,
+        bidAmount: bidAmount,
+      });
+      
+      // You might want to add actual bid placement logic here
+      // For now, we'll just redirect after a short delay
+      setTimeout(() => {
+        router.push(`/buy/${generateSlug(item.title)}`);
+      }, 2000);
     } catch (error) {
       console.error('Failed to place bid:', error);
     } finally {
@@ -78,6 +92,10 @@ const BidPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
           onBidAmountChange={handleBidAmountChange}
           onPlaceBid={handlePlaceBid}
           isLoading={isLoading}
+          event={{
+            title: item.title,
+            location: item.location,
+          }}
         />
         <div className="mt-8">
           <h2 className="text-2xl font-semibold mb-4">Most Sold Tickets</h2>
