@@ -31,6 +31,7 @@ interface TransactionWrapperProps {
   isApprovalTx?: boolean;
   approvalAmount?: number;
   text?: string;
+  className?: string;
 }
 
 export default function TransactionWrapper({
@@ -41,6 +42,7 @@ export default function TransactionWrapper({
   isApprovalTx,
   approvalAmount,
   text,
+  className,
 }: TransactionWrapperProps) {
   console.log("args", args);
   const contracts = [
@@ -80,7 +82,7 @@ export default function TransactionWrapper({
         }}
       >
         <TransactionButton
-          className='mt-0 mr-auto ml-auto max-w-full text-[white] bg-black hover:bg-gray-800'
+          className={`mt-0 mr-auto ml-auto max-w-full text-[white] bg-black hover:bg-gray-800`}
           text={text ?? "List now"}
         />
       </Transaction>

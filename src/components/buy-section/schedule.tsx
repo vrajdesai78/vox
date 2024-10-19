@@ -4,6 +4,8 @@ import { generateSlug } from "@/store/store";
 import BuyModal from "./buy-modal";
 
 interface Show {
+  id: number;
+  ticketId?: number;
   date: string;
   day: string;
   time: string;
@@ -34,7 +36,9 @@ interface TicketSection {
 const Schedule: React.FC<ScheduleProps> = ({ event }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedShow, setSelectedShow] = useState<Show | null>(null);
-  const [selectedTicket, setSelectedTicket] = useState<TicketSection | null>(null);
+  const [selectedTicket, setSelectedTicket] = useState<TicketSection | null>(
+    null
+  );
 
   const handleBuyClick = (show: Show) => {
     setSelectedShow(show);
@@ -69,7 +73,7 @@ const Schedule: React.FC<ScheduleProps> = ({ event }) => {
               {show.day} {show.time}
             </p>
             <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2'>
-              <button 
+              <button
                 className='bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition-colors w-full sm:w-auto text-sm'
                 onClick={() => handleBuyClick(show)}
               >
@@ -77,7 +81,9 @@ const Schedule: React.FC<ScheduleProps> = ({ event }) => {
                 {show.price.toLocaleString()}
               </button>
               <Link
-                href={`/buy/bid/${generateSlug(event.title)}`}
+                href={`/buy/bid/${generateSlug(event.title)}?showId=${
+                  show.id
+                }&ticketId=${show.ticketId}`}
                 className='border border-black text-black py-2 px-4 rounded-md hover:bg-gray-200 transition-colors w-full sm:w-auto text-sm text-center'
               >
                 Place bid

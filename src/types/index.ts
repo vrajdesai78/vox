@@ -7,6 +7,7 @@ export type TTicket = {
     section?: string;
   };
   price: number;
+  ticketUrl?: string;
 };
 
 export type TEventDetails = {

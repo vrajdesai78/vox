@@ -5,7 +5,7 @@ import Image from "next/image";
 import TransactionWrapper from "../wallet/TransactionWrapper";
 import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { recentlyAdded } from "@/app/_actions";
+import { recentlyAdded, sendEmail } from "@/app/_actions";
 import { parseEther } from "viem";
 
 interface Show {
@@ -169,6 +169,7 @@ const BuyModal: React.FC<BuyModalProps> = ({
                   args={[data?.[0].eventId, data?.[0].ticketId]}
                   onSuccess={async () => {
                     console.log("Transaction success");
+                    sendEmail(data?.[0].ticketUrl ?? "", email);
                     handleCheckout();
                   }}
                   onError={() => {

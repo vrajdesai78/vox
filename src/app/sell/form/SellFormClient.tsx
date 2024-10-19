@@ -10,6 +10,7 @@ import { addTicket } from "@/app/_actions";
 import { useRouter, useSearchParams } from "next/navigation";
 import { MapIcon } from "lucide-react";
 import { parseEther } from "viem";
+import lighthouse from "@lighthouse-web3/sdk";
 
 const SellFormClient: React.FC = () => {
   const {
@@ -30,6 +31,7 @@ const SellFormClient: React.FC = () => {
   } = useSellFormStore();
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [ticketUrl, setTicketUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const { address } = useAccount();
@@ -84,12 +86,20 @@ const SellFormClient: React.FC = () => {
     "Sell together",
   ];
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
-      setUploadedFile(file);
-    }
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files === null) return;
+
+    const file: File = e.target.files[0];
+    setSelectedFile(file);
+
+    const output = await lighthouse.upload(
+      e.target.files,
+      process.env.NEXT_PUBLIC_LH_API_KEY!
+    );
+
+    const cid = `https://gateway.lighthouse.storage/ipfs/${output.data.Hash}`;
+    console.log("cid", cid);
+    setTicketUrl(cid);
   };
 
   const handleUploadClick = () => {
@@ -242,9 +252,7 @@ const SellFormClient: React.FC = () => {
               <option value='2'>2</option>
               <option value='3'>3</option>
             </select>
-            {errors.row && (
-              <p className='text-red-500 text-sm'>{errors.row}</p>
-            )}
+            {errors.row && <p className='text-red-500 text-sm'>{errors.row}</p>}
 
             <div className='flex space-x-2'>
               <input
@@ -353,6 +361,7 @@ const SellFormClient: React.FC = () => {
                   row: Number(row),
                   section: section,
                 },
+                ticketUrl: ticketUrl!,
               });
               router.push(`/sell/${eventDetails.title.toLowerCase()}`);
             }}
@@ -366,14 +375,10 @@ const SellFormClient: React.FC = () => {
       <div className='w-1/3 font-bricolage'>
         <div className='p-4'>
           <div className='flex pb-4 justify-between items-center'>
-            <h2 className='text-[32px] font-semibold'>
-              {eventDetails.title}
-            </h2>{" "}
+            <h2 className='text-[32px] font-semibold'>{eventDetails.title}</h2>{" "}
             <div className='flex items-center gap-2'>
               <MapIcon />
-              <span className='text-gray-500'>
-                {eventDetails.location}
-              </span>
+              <span className='text-gray-500'>{eventDetails.location}</span>
             </div>
           </div>
           <div className='relative mb-4'>
@@ -392,7 +397,7 @@ const SellFormClient: React.FC = () => {
         </div>
       </div>
     </>
-    );
-  };
-  
-  export default SellFormClient;
+  );
+};
+
+export default SellFormClient;

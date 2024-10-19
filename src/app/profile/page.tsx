@@ -6,7 +6,7 @@ import { profiles } from "../../utils/profile";
 import { Navbar } from "../../components/navbar/navbar";
 import FullFooterWithBanner from "../../components/footer/full-footer";
 import { useQuery } from "@tanstack/react-query";
-import { getActiveBids } from "../_actions";
+import { getActiveBids, sendEmail } from "../_actions";
 import { useAccount } from "wagmi";
 import TransactionWrapper from "@/components/wallet/TransactionWrapper";
 
@@ -18,6 +18,8 @@ const ProfilePage: React.FC = () => {
     queryKey: ["activeBids"],
     queryFn: async () => await getActiveBids(address as string),
   });
+
+  console.log("requests", requests);
 
   return (
     <div className='container mx-auto max-w-6xl border-x-2 border-black/10 font-bricolage'>
@@ -47,7 +49,7 @@ const ProfilePage: React.FC = () => {
         <h1 className='text-2xl font-bold mb-4'>Your Requests</h1>
 
         <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-          {requests &&
+          {requests?.coldplay?.ticketId &&
             Object.entries(requests).map(([key, request]) => (
               <div
                 key={key}
@@ -102,28 +104,45 @@ const ProfilePage: React.FC = () => {
                   <div className='mt-2 shadow-inner border border-[#d6d6d6] p-5 bg-[#f6f6f6] border-dashed rounded-lg flex justify-between items-center'>
                     <div>
                       <p className='text-custom-gray'>
-                        Your Price: ₹{request.yourPrice.toLocaleString()}
+                        Your Price: ₹{request?.yourPrice?.toLocaleString()}
                       </p>
                       <p className='text-custom-gray'>
-                        Req. price: ₹{request.requestedPrice.toLocaleString()}
+                        Req. price: ₹{request?.requestedPrice?.toLocaleString()}
                       </p>
                     </div>
                     <div>
                       <p
                         className={`${
-                          request.priceChange < 0
+                          request?.priceChange < 0
                             ? "text-[#a9004f] bg-[#ffacb8] border-[1px] border-dashed border-[#a9004f] px-2 py-0.5 text-sm rounded-lg"
                             : "text-green-600"
                         }`}
                       >
-                        {request.priceChange}%
+                        {request?.priceChange}%
                       </p>
                     </div>
                   </div>
                   <div className='mt-4 flex space-x-2'>
                     <TransactionWrapper
                       functionName='acceptHighestBid'
-                      args={[request.eventId, request.ticketId]}
+                      args={[request?.eventId, request?.ticketId]}
+                      isApprovalTx={false}
+                      onSuccess={() => {
+                        console.log("Transaction success");
+                        sendEmail(request?.ticketUrl ?? "");
+                      }}
+                      onError={() => {
+                        console.log("Transaction error");
+                      }}
+                      text='Accept Bid'
+                    />
+                    <TransactionWrapper
+                      functionName='holdTicketAndRejectBid'
+                      args={[
+                        request?.eventId,
+                        request?.ticketId,
+                        request?.bidRequester,
+                      ]}
                       isApprovalTx={false}
                       onSuccess={() => {
                         console.log("Transaction success");
@@ -131,11 +150,8 @@ const ProfilePage: React.FC = () => {
                       onError={() => {
                         console.log("Transaction error");
                       }}
-                      text='Place Bid'
+                      text='Reject Bid'
                     />
-                    <button className='border border-gray-300 px-5 py-1 rounded-lg hover:scale-95 transition-all'>
-                      Hold ticket
-                    </button>
                   </div>
                 </div>
               </div>

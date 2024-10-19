@@ -8,6 +8,8 @@ import { useAccount } from "wagmi";
 import { ConnectWallet, ConnectWalletText } from "@coinbase/onchainkit/wallet";
 
 interface BidSectionProps {
+  showId: number;
+  ticketId: number;
   shows: BuyItem["shows"];
   selectedShow: BuyItem["shows"][0];
   onShowSelect: (show: BuyItem["shows"][0]) => void;
@@ -23,6 +25,8 @@ interface BidSectionProps {
 
 const BidSection: React.FC<BidSectionProps> = ({
   shows,
+  showId,
+  ticketId,
   selectedShow,
   onShowSelect,
   bidAmount,
@@ -34,7 +38,7 @@ const BidSection: React.FC<BidSectionProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { isConnected } = useAccount();
- 
+
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   const handleSelect = (show: BuyItem["shows"][0]) => {
@@ -132,7 +136,11 @@ const BidSection: React.FC<BidSectionProps> = ({
         {isConnected ? (
           <TransactionWrapper
             functionName='placeBid'
-            args={[2, 370, parseEther((Number(bidAmount) / 84.06).toFixed(2))]}
+            args={[
+              showId,
+              ticketId,
+              parseEther((Number(bidAmount) / 84.06).toFixed(2)),
+            ]}
             isApprovalTx={true}
             onSuccess={() => {
               setIsModalOpen(true);

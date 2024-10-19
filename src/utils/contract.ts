@@ -1,4 +1,4 @@
-export const CONTRACT_ADDRESS = "0xEcea2b596d3A5b4fEaA247F6bB0170f14d1AEC32";
+export const CONTRACT_ADDRESS = "0xC1e31D0D5aa204dd5A1282C2749cDDd1cdd6a1E3";
 
 export const TOKEN_ADDRESS = "0xd0F6DD27B42D02cF295c5DC7124c4739c27C80c1";
 
@@ -225,25 +225,6 @@ export const CONTRACT_ABI = [
         name: "ticketId",
         type: "uint256",
       },
-    ],
-    name: "TicketReceiptConfirmed",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "eventId",
-        type: "uint256",
-      },
-      {
-        indexed: true,
-        internalType: "uint256",
-        name: "ticketId",
-        type: "uint256",
-      },
       {
         indexed: true,
         internalType: "address",
@@ -343,24 +324,6 @@ export const CONTRACT_ABI = [
       },
     ],
     name: "buyTicket",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_eventId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_ticketId",
-        type: "uint256",
-      },
-    ],
-    name: "confirmReceipt",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -702,11 +665,6 @@ export const CONTRACT_ABI = [
       {
         internalType: "bool",
         name: "isPurchased",
-        type: "bool",
-      },
-      {
-        internalType: "bool",
-        name: "isConfirmed",
         type: "bool",
       },
     ],

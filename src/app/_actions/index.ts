@@ -7,6 +7,7 @@ import { ReclaimProofRequest } from "@reclaimprotocol/js-sdk";
 import { createClient } from "@supabase/supabase-js";
 import { createPublicClient, formatUnits, http, parseUnits } from "viem";
 import { baseSepolia } from "viem/chains";
+import sgMail from "@sendgrid/mail";
 
 export const getReclaimConfig = async (url: string) => {
   const APP_ID = process.env.APP_ID!;
@@ -43,6 +44,7 @@ export const addTicket = async (ticket: TTicket) => {
     eventId: ticket.eventId,
     seatDetails: ticket.seatDetails,
     price: ticket.price,
+    ticketUrl: ticket.ticketUrl,
   });
 
   if (error) {
@@ -190,7 +192,9 @@ export const getActiveBids = async (user: string) => {
   console.log("activeBids", activeBids);
 
   const ticket = await getTicketbyId(activeBids?.[1] as number);
-  const requestedPrice = formatUnits(activeBids?.[2] as bigint, 18);
+  const requestedPrice =
+    Number(formatUnits(activeBids?.[2] as bigint, 18)) * 84.06;
+  const formattedPrice = Number((ticket?.price * 84.06).toFixed(2));
 
   console.log("price", requestedPrice);
 
@@ -199,14 +203,16 @@ export const getActiveBids = async (user: string) => {
       artist: "Coldplay",
       event: "Music Festival",
       eventId: ticket?.eventId,
+      ticketUrl: ticket?.ticketUrl,
       ticketId: ticket?.ticketId,
       location: "Mumbai",
       date: "18th Jaunuary 2025",
-      yourPrice: ticket?.price,
-      requestedPrice: requestedPrice,
+      yourPrice: formattedPrice,
+      requestedPrice: Number(requestedPrice.toFixed(2)),
+      bidRequester: activeBids?.[3][0],
       priceChange: Number(
         (
-          ((Number(requestedPrice) - ticket?.price) / ticket?.price) *
+          ((Number(requestedPrice) - formattedPrice) / formattedPrice) *
           100
         ).toFixed(2)
       ),
@@ -215,4 +221,28 @@ export const getActiveBids = async (user: string) => {
   };
 
   return requests;
+};
+
+export const sendEmail = async (url: string, email?: string) => {
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
+
+  const msg = {
+    from: "manav18gadhiya@gmail.com",
+    to: email ?? "vrajdesai78@gmail.com",
+    subject: "Turn up the heat, your coldplay ticket is here!",
+    html: `<p>Your ticket is ready to be claimed. Click on the link below to claim your ticket.
+    <a href=${url}>Get Ticket</a>
+    </p>`,
+  };
+
+  try {
+    const response = await sgMail.send(msg);
+    console.log(response);
+  } catch (error: any) {
+    console.error(error);
+
+    if (error.response) {
+      console.error(error.response.body);
+    }
+  }
 };

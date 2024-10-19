@@ -7,7 +7,7 @@ import DescriptionBox from "@/components/buy-section/description-box";
 import BidSection from "@/components/buy-section/bid-section";
 import MostSoldTickets from "@/components/buy-section/most-sold-tickets";
 import FullFooterWithBanner from "@/components/footer/full-footer";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Shimmer from "@/components/loaders/shimmer";
 
@@ -15,13 +15,15 @@ const BidPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
   const router = useRouter();
   const { slug } = params;
   const { items, fetchConcerts } = useBuyStore();
-  const { currentBid, setBid } = useBidStore();
   const [item, setItem] = useState<BuyItem | null>(null);
   const [selectedShow, setSelectedShow] = useState<BuyItem["shows"][0] | null>(
     null
   );
-  const [bidAmount, setBidAmount] = useState<string>("");
+  const [bidAmount, setBidAmount] = useState<string>("0");
   const [isLoading, setIsLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const showId = searchParams.get("showId");
+  const ticketId = searchParams.get("ticketId");
 
   useEffect(() => {
     if (items.length === 0) {
@@ -99,6 +101,8 @@ const BidPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
             title: item.title,
             location: item.location,
           }}
+          showId={Number(showId)}
+          ticketId={Number(ticketId)}
         />
         <div className='mt-8'>
           <h2 className='text-2xl font-semibold mb-4'>Most Sold Tickets</h2>
