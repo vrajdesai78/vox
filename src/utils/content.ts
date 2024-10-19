@@ -18,6 +18,6 @@ export const buy = {
 export const footer = {
   name: "🎤 Vox",
   description:
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.",
+    "A based user-friendly and trustless reselling Marketplace for normies",
   created: "made by vraj, sarthak, farhat",
 };

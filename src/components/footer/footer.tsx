@@ -42,8 +42,7 @@ const Footer = () => (
               🎤 Vox
             </h2>
             <p className="mt-2 w-[20rem] text-gray-600 font-bricolage">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse varius enim in eros elementum tristique.
+              A based user-friendly and trustless reselling Marketplace for normies
             </p>
             <p className="mt-2 text-gray-400 text-sm">
               made by{" "}
