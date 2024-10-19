@@ -166,6 +166,7 @@ interface CheckoutItem {
   quantity: number;
   totalPrice: number;
   currency: string;
+  email: string;
 }
 
 interface CheckoutState {

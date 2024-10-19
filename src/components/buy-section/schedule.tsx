@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { generateSlug } from "@/store/store";
+import BuyModal from "./buy-modal";
 
 interface Show {
   date: string;
@@ -16,13 +17,36 @@ interface Event {
   location: string;
   dateRange: string;
   shows: Show[];
+  mostSoldTickets: TicketSection[]; // Add this line
 }
 
 interface ScheduleProps {
   event: Event;
 }
 
+interface TicketSection {
+  section: string;
+  row: string;
+  view: string;
+  remaining: number;
+}
+
 const Schedule: React.FC<ScheduleProps> = ({ event }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedShow, setSelectedShow] = useState<Show | null>(null);
+  const [selectedTicket, setSelectedTicket] = useState<TicketSection | null>(null);
+
+  const handleBuyClick = (show: Show) => {
+    setSelectedShow(show);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedShow(null);
+    setSelectedTicket(null);
+  };
+
   return (
     <div className='w-full'>
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
@@ -45,7 +69,10 @@ const Schedule: React.FC<ScheduleProps> = ({ event }) => {
               {show.day} {show.time}
             </p>
             <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2'>
-              <button className='bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition-colors w-full sm:w-auto text-sm'>
+              <button 
+                className='bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 transition-colors w-full sm:w-auto text-sm'
+                onClick={() => handleBuyClick(show)}
+              >
                 Buy from {show.currency}
                 {show.price.toLocaleString()}
               </button>
@@ -59,6 +86,18 @@ const Schedule: React.FC<ScheduleProps> = ({ event }) => {
           </div>
         ))}
       </div>
+      {isModalOpen && selectedShow && (
+        <BuyModal
+          event={{
+            title: event.title,
+            location: event.location,
+            mostSoldTickets: event.mostSoldTickets,
+          }}
+          show={selectedShow}
+          selectedTicket={selectedTicket}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 };

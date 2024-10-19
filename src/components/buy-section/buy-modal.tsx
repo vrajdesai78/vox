@@ -41,6 +41,8 @@ const BuyModal: React.FC<BuyModalProps> = ({
   selectedTicket,
   onClose,
 }) => {
+  const [step, setStep] = useState<1 | 2>(1);
+  const [email, setEmail] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
   const { addToCheckout } = useCheckoutStore();
 
@@ -59,6 +61,13 @@ const BuyModal: React.FC<BuyModalProps> = ({
     event.mostSoldTickets[0];
   const totalPrice = show.price * quantity;
 
+  const handleEmailSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (email) {
+      setStep(2);
+    }
+  };
+
   const handleCheckout = () => {
     addToCheckout({
       eventId: 0,
@@ -70,11 +79,10 @@ const BuyModal: React.FC<BuyModalProps> = ({
       quantity: quantity,
       totalPrice: totalPrice,
       currency: show.currency,
+      email: email,
     });
     onClose();
     console.log("Checkout");
-    // Here you would typically navigate to the checkout page
-    // For example: router.push('/checkout');
   };
 
   const searchParams = useSearchParams();
@@ -136,27 +144,47 @@ const BuyModal: React.FC<BuyModalProps> = ({
               <p className='bg-[#F7F7F7] px-2 py-2 rounded-md'>{ticket.view}</p>
             </div>
 
-            <div className='flex flex-col gap-2'>
-              <TransactionWrapper
-                functionName='buyTicket'
-                args={[data?.[0].eventId, data?.[0].ticketId]}
-                onSuccess={async () => {
-                  console.log("Transaction success");
-                }}
-                onError={() => {
-                  console.log("Transaction error");
-                }}
-                isApprovalTx={true}
-                text='Buy Now'
-              />
-              <Link
-                href={`/buy/bid/${generateSlug(event.title)}`}
-                className='block w-full border border-black text-black py-3 rounded-md mb-2 text-center hover:scale-95 transition-all'
-                onClick={onClose}
-              >
-                Place bid
-              </Link>
-            </div>
+            {step === 1 ? (
+              <form onSubmit={handleEmailSubmit} className='mt-4'>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  className='w-full px-3 py-2 border border-gray-300 rounded-md mb-4'
+                  required
+                />
+                <button
+                  type="submit"
+                  className='w-full bg-black text-white py-3 rounded-md mb-2 hover:bg-opacity-90 transition-all'
+                >
+                  Continue
+                </button>
+              </form>
+            ) : (
+              <div className='flex flex-col gap-2'>
+                <TransactionWrapper
+                  functionName='buyTicket'
+                  args={[data?.[0].eventId, data?.[0].ticketId]}
+                  onSuccess={async () => {
+                    console.log("Transaction success");
+                    handleCheckout();
+                  }}
+                  onError={() => {
+                    console.log("Transaction error");
+                  }}
+                  isApprovalTx={true}
+                  text='Buy Now'
+                />
+                <Link
+                  href={`/buy/bid/${generateSlug(event.title)}`}
+                  className='block w-full border border-black text-black py-3 rounded-md mb-2 text-center hover:scale-95 transition-all'
+                  onClick={onClose}
+                >
+                  Place bid
+                </Link>
+              </div>
+            )}
             <p className='text-center text-sm text-[#787878] underline cursor-pointer'>
               See other tickets
             </p>
