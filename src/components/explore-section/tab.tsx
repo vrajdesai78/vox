@@ -19,19 +19,27 @@ const Tab: React.FC = () => {
 
   const tabs: TabOption[] = ["All Events", "Sports", "Theatre", "Festivals"];
 
-  const filteredData = selectedTab === "All Events" 
-    ? exploreData 
-    : exploreData.filter(event => event.category === selectedTab);
+  const filteredData =
+    selectedTab === "All Events"
+      ? exploreData
+      : exploreData.filter((event) => event.category === selectedTab);
 
   const renderContent = () => {
     if (filteredData.length === 0) {
-      return <p className="text-center text-gray-500 mt-8">No events found for {selectedTab}.</p>;
+      return (
+        <p className="text-center text-gray-500 mt-8">
+          No events found for {selectedTab}.
+        </p>
+      );
     }
 
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {filteredData.map((event: Event) => (
-          <div key={event.id} className="relative cursor-pointer rounded-lg overflow-hidden aspect-square">
+          <div
+            key={event.id}
+            className="relative cursor-pointer rounded-lg overflow-hidden aspect-square"
+          >
             <Image
               src={event.bgImage}
               alt={event.title}
@@ -41,9 +49,13 @@ const Tab: React.FC = () => {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent rounded-lg"></div>
             <div className="absolute bottom-0 left-0 p-4 text-white">
-              <h3 className="text-xl font-semibold font-bricolage">{event.title}</h3>
+              <h3 className="text-xl font-semibold font-bricolage">
+                {event.title}
+              </h3>
               {event.category && (
-                <p className="text-sm mt-1 bg-white/20 px-2 py-1 rounded-full inline-block">{event.category}</p>
+                <p className="text-sm mt-1 bg-white/20 px-2 py-1 rounded-full inline-block">
+                  {event.category}
+                </p>
               )}
             </div>
           </div>
@@ -70,11 +82,26 @@ const Tab: React.FC = () => {
             </button>
           ))}
         </div>
-
-        <button className="mt-4 sm:mt-0 flex items-center text-gray-500 gap-2 bg-[#F8F8F8] py-2 px-4 rounded-full shadow-sm border border-gray-200 hover:bg-gray-100 transition-colors duration-200">
-          <Image src="/explore/filter.svg" alt="filter" width={16} height={16} />
-          Filter
-        </button>
+        <div className="flex items-center gap-4">
+          <button className="mt-4 sm:mt-0 flex items-center text-gray-500 gap-2 bg-[#F8F8F8] py-2 px-4 rounded-full shadow-sm border border-gray-200 hover:bg-gray-100 transition-colors duration-200">
+            <Image
+              src="/explore/filter.svg"
+              alt="filter"
+              width={16}
+              height={16}
+            />
+            Filter
+          </button>
+          <button className="mt-4 sm:mt-0 flex items-center text-white gap-2 bg-[#111111] py-2 px-4 rounded-full shadow-sm border border-gray-200 hover:bg-[#000000] hover:scale-95 duration-200">
+          <Image
+              src="/explore/profile.svg"
+              alt="filter"
+              width={16}
+              height={16}
+            />
+            Profile
+          </button>
+        </div>
       </div>
 
       <div className="sm:hidden relative mb-6">

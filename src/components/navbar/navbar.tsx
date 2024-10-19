@@ -4,7 +4,6 @@ import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ConnectWallet, WalletDefault } from "@coinbase/onchainkit/wallet";
 
 export const Navbar: React.FC = () => {
   const [position, setPosition] = useState<{
