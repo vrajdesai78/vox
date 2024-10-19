@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { BuyItem } from "@/store/store";
 import { ChevronDown } from "lucide-react";
 import BidModal from "./bid-modal";
+import TransactionWrapper from "../wallet/TransactionWrapper";
+import { parseEther } from "viem";
+import { useAccount } from "wagmi";
+import { ConnectWallet, ConnectWalletText } from "@coinbase/onchainkit/wallet";
 
 interface BidSectionProps {
   shows: BuyItem["shows"];
@@ -29,6 +33,7 @@ const BidSection: React.FC<BidSectionProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isConnected } = useAccount();
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -50,7 +55,7 @@ const BidSection: React.FC<BidSectionProps> = ({
   const handlePlaceBid = () => {
     onPlaceBid();
     setIsModalOpen(true);
-    
+
     // Console log the final data
     console.log("Bid placed:", {
       event: event,
@@ -93,29 +98,58 @@ const BidSection: React.FC<BidSectionProps> = ({
         <div className='relative'>
           <input
             type='text'
-            value={`${selectedShow.currency}${parseFloat(bidAmount).toLocaleString()}`}
+            value={`${selectedShow.currency}${parseFloat(
+              bidAmount
+            ).toLocaleString()}`}
             onChange={(e) => {
               const value = e.target.value.replace(/[^0-9]/g, "");
               onBidAmountChange(value);
             }}
             className='w-full border-2 border-gray-300 rounded-md py-2 px-4 text-lg text-[#111111] focus:outline-none focus:border-black'
           />
-          <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex flex-col">
-            <button onClick={incrementBid} className="text-gray-500 hover:text-gray-700">
-              <ChevronDown size={20} className="transform rotate-180" />
+          <div className='absolute right-2 top-1/2 transform -translate-y-1/2 flex flex-col'>
+            <button
+              onClick={incrementBid}
+              className='text-gray-500 hover:text-gray-700'
+            >
+              <ChevronDown size={20} className='transform rotate-180' />
             </button>
-            <button onClick={decrementBid} className="text-gray-500 hover:text-gray-700">
+            <button
+              onClick={decrementBid}
+              className='text-gray-500 hover:text-gray-700'
+            >
               <ChevronDown size={20} />
             </button>
           </div>
         </div>
-        <button
+        {/* <button
           className="w-full bg-gradient-to-b from-[#222222] to-[#111111] text-white py-3 rounded-md hover:bg-gray-800 transition-colors disabled:bg-gray-400 relative overflow-hidden"
           onClick={handlePlaceBid}
           disabled={isLoading || parseFloat(bidAmount) < selectedShow.price}
         >
           <span className="relative z-10">{isLoading ? "Placing a Bid.." : "Place Bid"}</span>
-        </button>
+        </button> */}
+        {isConnected ? (
+          <TransactionWrapper
+            functionName='placeBid'
+            args={[2, 370, parseEther((Number(bidAmount) / 84.06).toFixed(2))]}
+            isApprovalTx={true}
+            onSuccess={() => {
+              setIsModalOpen(true);
+            }}
+            onError={() => {
+              console.log("Transaction error");
+            }}
+            approvalAmount={Number(
+              parseEther((Number(bidAmount) / 84.06).toFixed(2))
+            )}
+            text='Place Bid'
+          />
+        ) : (
+          <ConnectWallet className='w-full bg-gradient-to-b from-[#272727] to-black rounded-lg shadow-inner border border-black'>
+            <ConnectWalletText>Login</ConnectWalletText>
+          </ConnectWallet>
+        )}
       </div>
       <BidModal
         isOpen={isModalOpen}

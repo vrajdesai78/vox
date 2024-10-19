@@ -6,6 +6,7 @@ import TransactionWrapper from "../wallet/TransactionWrapper";
 import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { recentlyAdded } from "@/app/_actions";
+import { parseEther } from "viem";
 
 interface Show {
   date: string;
@@ -147,15 +148,15 @@ const BuyModal: React.FC<BuyModalProps> = ({
             {step === 1 ? (
               <form onSubmit={handleEmailSubmit} className='mt-4'>
                 <input
-                  type="email"
+                  type='email'
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
+                  placeholder='Enter your email'
                   className='w-full px-3 py-2 border border-gray-300 rounded-md mb-4'
                   required
                 />
                 <button
-                  type="submit"
+                  type='submit'
                   className='w-full bg-black text-white py-3 rounded-md mb-2 hover:bg-opacity-90 transition-all'
                 >
                   Continue
@@ -174,6 +175,7 @@ const BuyModal: React.FC<BuyModalProps> = ({
                     console.log("Transaction error");
                   }}
                   isApprovalTx={true}
+                  approvalAmount={Number(parseEther("1000"))}
                   text='Buy Now'
                 />
                 <Link

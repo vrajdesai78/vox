@@ -1,4 +1,4 @@
-export const CONTRACT_ADDRESS = "0x7c09b84055265aED798522eE204Fae5D57548b64";
+export const CONTRACT_ADDRESS = "0xEcea2b596d3A5b4fEaA247F6bB0170f14d1AEC32";
 
 export const TOKEN_ADDRESS = "0xd0F6DD27B42D02cF295c5DC7124c4739c27C80c1";
 
@@ -70,6 +70,37 @@ export const CONTRACT_ABI = [
       },
     ],
     name: "BidPlaced",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "eventId",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "ticketId",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "bidder",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "rejectedBid",
+        type: "uint256",
+      },
+    ],
+    name: "BidRejected",
     type: "event",
   },
   {
@@ -337,6 +368,69 @@ export const CONTRACT_ABI = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "_user",
+        type: "address",
+      },
+    ],
+    name: "getActiveBidsByUser",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "eventIds",
+        type: "uint256[]",
+      },
+      {
+        internalType: "uint256[]",
+        name: "ticketIds",
+        type: "uint256[]",
+      },
+      {
+        internalType: "uint256[]",
+        name: "bidAmounts",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_seller",
+        type: "address",
+      },
+    ],
+    name: "getCurrentBidsOnListedTickets",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "eventIds",
+        type: "uint256[]",
+      },
+      {
+        internalType: "uint256[]",
+        name: "ticketIds",
+        type: "uint256[]",
+      },
+      {
+        internalType: "uint256[]",
+        name: "highestBids",
+        type: "uint256[]",
+      },
+      {
+        internalType: "address[]",
+        name: "highestBidders",
+        type: "address[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "_eventId",
         type: "uint256",
@@ -373,6 +467,42 @@ export const CONTRACT_ABI = [
         internalType: "address[]",
         name: "highestBidders",
         type: "address[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_eventId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_ticketId",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "_bidder",
+        type: "address",
+      },
+    ],
+    name: "holdTicketAndRejectBid",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "lastEventId",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -481,6 +611,11 @@ export const CONTRACT_ABI = [
       {
         internalType: "uint256",
         name: "_ticketId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_bidAmount",
         type: "uint256",
       },
     ],

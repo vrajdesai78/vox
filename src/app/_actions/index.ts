@@ -2,8 +2,11 @@
 
 import { TEventDetails, TTicket } from "@/types";
 import buy from "@/utils/buy";
+import { CONTRACT_ABI, CONTRACT_ADDRESS } from "@/utils/contract";
 import { ReclaimProofRequest } from "@reclaimprotocol/js-sdk";
 import { createClient } from "@supabase/supabase-js";
+import { createPublicClient, formatUnits, http, parseUnits } from "viem";
+import { baseSepolia } from "viem/chains";
 
 export const getReclaimConfig = async (url: string) => {
   const APP_ID = process.env.APP_ID!;
@@ -39,6 +42,7 @@ export const addTicket = async (ticket: TTicket) => {
     ticketId: ticket.ticketId,
     eventId: ticket.eventId,
     seatDetails: ticket.seatDetails,
+    price: ticket.price,
   });
 
   if (error) {
@@ -79,8 +83,7 @@ export const getShowsByEventId = async (eventId: number) => {
     .from("Tickets")
     .select("*")
     .eq("eventId", eventId)
-    .order("createdAt", { ascending: true })
-    .single();
+    .order("createdAt", { ascending: true });
 
   console.log("data", data);
 
@@ -88,7 +91,7 @@ export const getShowsByEventId = async (eventId: number) => {
     console.error("Error fetching event details:", error);
   }
 
-  return data as TTicket;
+  return data?.[0] as TTicket;
 };
 
 export const getEventDetails = async (name: string) => {
@@ -123,7 +126,7 @@ export const getShows = async () => {
           date: buyData.shows[idx].date,
           day: buyData.shows[idx].day,
           time: buyData.shows[idx].time,
-          price: showData?.price ?? 0,
+          price: Number((showData?.price * 84.06).toFixed(2)),
           currency: buyData.shows[idx].currency,
           bestSelling: buyData.shows[idx].bestSelling,
         };
@@ -159,4 +162,57 @@ export const recentlyAdded = async () => {
   }
 
   return data as TTicket[];
+};
+
+export const getTicketbyId = async (ticketId: number) => {
+  const supabase = getClient();
+  const { data, error } = await supabase
+    .from("Tickets")
+    .select("*")
+    .eq("ticketId", ticketId);
+
+  return data?.[0] as TTicket;
+};
+
+export const getActiveBids = async (user: string) => {
+  const client = createPublicClient({
+    chain: baseSepolia,
+    transport: http(),
+  });
+
+  const activeBids = (await client.readContract({
+    abi: CONTRACT_ABI,
+    functionName: "getCurrentBidsOnListedTickets",
+    args: [user],
+    address: CONTRACT_ADDRESS,
+  })) as any[];
+
+  console.log("activeBids", activeBids);
+
+  const ticket = await getTicketbyId(activeBids?.[1] as number);
+  const requestedPrice = formatUnits(activeBids?.[2] as bigint, 18);
+
+  console.log("price", requestedPrice);
+
+  const requests = {
+    coldplay: {
+      artist: "Coldplay",
+      event: "Music Festival",
+      eventId: ticket?.eventId,
+      ticketId: ticket?.ticketId,
+      location: "Mumbai",
+      date: "18th Jaunuary 2025",
+      yourPrice: ticket?.price,
+      requestedPrice: requestedPrice,
+      priceChange: Number(
+        (
+          ((Number(requestedPrice) - ticket?.price) / ticket?.price) *
+          100
+        ).toFixed(2)
+      ),
+      imageSrc: "/profile/request.svg",
+    },
+  };
+
+  return requests;
 };

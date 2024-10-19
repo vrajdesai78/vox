@@ -370,7 +370,7 @@ const SellFormPage: React.FC = () => {
                           section: section,
                         },
                       });
-                      router.push(`/sell/${eventDetails.title}`);
+                      router.push(`/sell/${eventDetails.title.toLowerCase()}`);
                     }}
                     onError={() => {
                       console.log("Transaction error");
