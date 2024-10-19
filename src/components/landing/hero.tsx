@@ -12,75 +12,82 @@ import {
   ConnectWalletText,
   WalletDropdownDisconnect,
 } from "@coinbase/onchainkit/wallet";
-import TransactionWrapper from "../wallet/TransactionWrapper";
+import { MoveRight } from "lucide-react";
+import Link from "next/link";
 
 const Hero = () => {
   const { isConnected } = useAccount();
 
   return (
     <>
-      <div className='hidden lg:flex'>
-        <div className='relative w-full border-t-2 border-black/10'>
-          <div className='flex pt-20 justify-between items-center'>
-            <div className='relative w-[30rem] grid grid-cols-2 grid-rows-2'>
-              <div className='flex justify-center items-center col-span-1 row-span-1'>
-                <HeroCard color='#CDFFAC' emoji='🎤' rotation='-12deg' />
+      <div className="hidden lg:flex">
+        <div className="relative w-full border-t-2 border-black/10">
+          <div className="flex pt-20 justify-between items-center">
+            <div className="relative w-[30rem] grid grid-cols-2 grid-rows-2">
+              <div className="flex justify-center items-center col-span-1 row-span-1">
+                <HeroCard color="#CDFFAC" emoji="🎤" rotation="-12deg" />
               </div>
-              <div className='flex justify-center items-center col-span-2 row-span-2'>
-                <HeroCard color='#ADE8FF' emoji='🎺' rotation='-12deg' />
+              <div className="flex justify-center items-center col-span-2 row-span-2">
+                <HeroCard color="#ADE8FF" emoji="🎺" rotation="-12deg" />
               </div>
             </div>
-            <div className='flex w-[40rem] flex-col items-center gap-3'>
-              <div className='text-black text-5xl text-center font-semibold font-bricolage leading-[57.60px]'>
+            <div className="flex w-[40rem] flex-col items-center gap-3">
+              <div className="text-black text-5xl text-center font-semibold font-bricolage leading-[57.60px]">
                 {hero.title}
               </div>
-              <div className='text-custom-gray text-base font-inter leading-tight'>
+              <div className="text-custom-gray text-base font-inter leading-tight">
                 {hero.subtitle}
               </div>
-              <div>
-                {isConnected ? (
+              {/* <button className="h-11 flex items-center gap-2 justify-center w-48 px-4 py-2 bg-gradient-to-b from-[#272727] to-black rounded-lg shadow-inner border border-black text-white"> */}
+              {/* {isConnected ? (
                   <WalletDropdownDisconnect className="h-11 w-full px-4 py-2 bg-gradient-to-b from-[#FFFFFF] to-gray-100w rounded-lg shadow-inner border border-black"/>
                 ) : (
                   <ConnectWallet className='h-11 w-32 px-4 py-2 bg-gradient-to-b from-[#272727] to-black rounded-lg shadow-inner border border-black'>
                     <ConnectWalletText>Login</ConnectWalletText>
                   </ConnectWallet>
-                )}
-              </div>
+                )} */}
+              {/* Explore More <MoveRight />
+              </button> */}
+              <Link href="/buy">
+                <button className="h-11 flex items-center gap-2 justify-center w-48 px-4 py-2 bg-gradient-to-b from-[#272727] to-black rounded-lg shadow-inner border border-black text-white">
+                  Explore More <MoveRight />
+                </button>
+              </Link>
             </div>
-            <div className='relative w-[30rem] h-[14rem] grid grid-cols-2 grid-rows-2'>
-              <div className='flex justify-center items-center col-span-2 row-span-1'>
-                <HeroCard color='#E1CCFF' emoji='🪩' rotation='12deg' />
+            <div className="relative w-[30rem] h-[14rem] grid grid-cols-2 grid-rows-2">
+              <div className="flex justify-center items-center col-span-2 row-span-1">
+                <HeroCard color="#E1CCFF" emoji="🪩" rotation="12deg" />
               </div>
-              <div className='flex justify-center items-center col-span-1 row-span-2'>
-                <HeroCard color='#FFE0A6' emoji='🎶' rotation='12deg' />
+              <div className="flex justify-center items-center col-span-1 row-span-2">
+                <HeroCard color="#FFE0A6" emoji="🎶" rotation="12deg" />
               </div>
             </div>
           </div>
-          <div className='pt-24'>
+          <div className="pt-24">
             <ImageSlider />
           </div>
-          <div className='absolute inset-0 -z-10'>
-            <DotPattern className='[mask-image:gradient(1px_circle_at_center,white,transparent)]' />
+          <div className="absolute inset-0 -z-10">
+            <DotPattern className="[mask-image:gradient(1px_circle_at_center,white,transparent)]" />
           </div>
         </div>
       </div>
-      <div className='flex flex-col gap-10 lg:hidden pt-10'>
-        <div className='flex items-center gap-2'>
-          <div className='col-span-1 row-span-1'>
-            <HeroCard color='#CDFFAC' emoji='🎤' rotation='4deg' />
+      <div className="flex flex-col gap-10 lg:hidden pt-10">
+        <div className="flex items-center gap-2">
+          <div className="col-span-1 row-span-1">
+            <HeroCard color="#CDFFAC" emoji="🎤" rotation="4deg" />
           </div>
-          <div className='col-span-2 row-span-1'>
-            <HeroCard color='#ADE8FF' emoji='🎺' rotation='-2deg' />
+          <div className="col-span-2 row-span-1">
+            <HeroCard color="#ADE8FF" emoji="🎺" rotation="-2deg" />
           </div>
-          <div className='col-span-3 row-span-1'>
-            <HeroCard color='#E1CCFF' emoji='🪩' rotation='4deg' />
+          <div className="col-span-3 row-span-1">
+            <HeroCard color="#E1CCFF" emoji="🪩" rotation="4deg" />
           </div>
-          <div className='col-span-4 row-span-1'>
-            <HeroCard color='#FFE0A6' emoji='🎶' rotation='-2deg' />
+          <div className="col-span-4 row-span-1">
+            <HeroCard color="#FFE0A6" emoji="🎶" rotation="-2deg" />
           </div>
         </div>
-        <div className='flex flex-col items-center gap-2'>
-          <div className='text-black text-[32px] text-center font-semibold font-bricolage leading-[38.40px]'>
+        <div className="flex flex-col items-center gap-2">
+          <div className="text-black text-[32px] text-center font-semibold font-bricolage leading-[38.40px]">
             Vox has your seat
           </div>
           <div className="text-center text-custom-gray text-sm font-medium font-['Inter'] leading-[16.80px]">
@@ -88,24 +95,24 @@ const Hero = () => {
           </div>
           <button
             className={`h-11 w-32 px-4 py-2 bg-gradient-to-b from-[#272727] to-black rounded-lg shadow-inner border border-black flex justify-center items-center gap-3 text-center text-white text-sm font-medium leading-[16.80px] font-inter`}
-            type='button'
+            type="button"
           >
-            Login
+            Explore More
           </button>
         </div>
-        <div className='px-4'>
+        <div className="px-4">
           <ImageSlider />
         </div>
-        <div className='flex flex-col items-center gap-2'>
-          <div className='text-black text-base text-center font-semibold font-bricolage leading-[38.40px]'>
+        <div className="flex flex-col items-center gap-2">
+          <div className="text-black text-base text-center font-semibold font-bricolage leading-[38.40px]">
             Choose by cities
           </div>
           <div>
             <CityCards />
           </div>
         </div>
-        <div className='absolute inset-0 -z-10'>
-          <DotPattern className='[mask-image:gradient(1px_circle_at_center,white,transparent)]' />
+        <div className="absolute inset-0 -z-10">
+          <DotPattern className="[mask-image:gradient(1px_circle_at_center,white,transparent)]" />
         </div>
       </div>
     </>
