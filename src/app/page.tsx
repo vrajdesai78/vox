@@ -1,8 +1,6 @@
 import { Navbar } from "@/components/navbar/navbar";
 import FooterWithBanner from "@/components/footer/footer";
 import Hero from "@/components/landing/hero";
-import CityCards from "@/components/cards/city-card";
-import SellGrid from "@/components/sell/sell-grid";
 
 export default function Explore() {
   return (

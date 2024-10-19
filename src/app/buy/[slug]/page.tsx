@@ -12,6 +12,7 @@ import FullFooterWithBanner from "@/components/footer/full-footer";
 import BuyModal from "@/components/buy-section/buy-modal";
 import { useQuery } from "@tanstack/react-query";
 import { getShows } from "@/app/_actions";
+import Shimmer from "@/components/loaders/shimmer";
 
 const BuyItemPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
   const { currentBid } = useBidStore();
@@ -50,7 +51,7 @@ const BuyItemPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
     setIsModalOpen(true);
   };
 
-  if (!item) return <div>Loading...</div>;
+  if (!item) return <div><Shimmer /></div>;
 
   return (
     <>

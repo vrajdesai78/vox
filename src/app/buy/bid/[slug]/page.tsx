@@ -9,6 +9,7 @@ import MostSoldTickets from "@/components/buy-section/most-sold-tickets";
 import FullFooterWithBanner from "@/components/footer/full-footer";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Shimmer from "@/components/loaders/shimmer";
 
 const BidPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
   const router = useRouter();
@@ -72,7 +73,7 @@ const BidPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
     }
   };
 
-  if (!item || !selectedShow) return <div>Loading...</div>;
+  if (!item || !selectedShow) return <div><Shimmer /></div>;
 
   return (
     <>

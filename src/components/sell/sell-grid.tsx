@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { useSellStore, generateSlug } from "../../store/store";
 import { useRouter } from "next/navigation";
 import SellCard from "../cards/sell-card";
+import Shimmer from "../loaders/shimmer";
 
 const SellGrid = () => {
   const { items, isLoading, error, fetchItems } = useSellStore();
@@ -18,7 +19,7 @@ const SellGrid = () => {
     router.push(`/sell/${slug}`);
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div><Shimmer /></div>;
   if (error) return <div>Error: {error}</div>;
 
   return (

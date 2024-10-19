@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import BuyCard from "../cards/buy-card";
 import { useBuyStore, generateSlug } from "../../store/store";
 import { useRouter } from "next/navigation";
+import Shimmer from "../loaders/shimmer";
 
 const BuyGrid = () => {
   const { items, isLoading, error, fetchConcerts } = useBuyStore();
@@ -18,7 +19,7 @@ const BuyGrid = () => {
     router.push(`/buy/${slug}`);
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div><Shimmer /></div>;
   if (error) return <div>Error: {error}</div>;
 
   return (

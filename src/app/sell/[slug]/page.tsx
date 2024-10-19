@@ -7,6 +7,7 @@ import DescriptionBox from "@/components/buy-section/description-box";
 import Image from "next/image";
 import FullFooterWithBanner from "@/components/footer/full-footer";
 import SellSchedule from "@/components/sell/sell-schedule";
+import Shimmer from "@/components/loaders/shimmer";
 
 interface SellItemPageProps {
   params: { slug: string };
@@ -29,7 +30,7 @@ const SellItemPage: React.FC<SellItemPageProps> = ({ params }) => {
     }
   }, [params.slug, items]);
 
-  if (isLoading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
+  if (isLoading) return <div className="flex justify-center items-center h-screen"><Shimmer /></div>;
   if (error) return <div className="flex justify-center items-center h-screen">Error: {error}</div>;
   if (!item) return <div className="flex justify-center items-center h-screen">Event not found</div>;
 
