@@ -6,12 +6,13 @@ import { useSellFormStore, TicketType, SplitPreference } from "@/store/store";
 import { useAccount } from "wagmi";
 import { ConnectWallet, ConnectWalletText } from "@coinbase/onchainkit/wallet";
 import TransactionWrapper from "@/components/wallet/TransactionWrapper";
-import { addTicket } from "@/app/_actions";
+import { addTicket, getReclaimConfig } from "@/app/_actions";
 import { useRouter, useSearchParams } from "next/navigation";
 import { MapIcon } from "lucide-react";
 import { parseEther } from "viem";
 import lighthouse from "@lighthouse-web3/sdk";
 import { toast } from "react-toastify";
+import { ReclaimProofRequest } from "@reclaimprotocol/js-sdk";
 
 const SellFormClient: React.FC = () => {
   const {
@@ -117,6 +118,25 @@ const SellFormClient: React.FC = () => {
     }
   };
 
+  const handleVerifyTicket = async () => {
+    const relcaimProofRequest = await getReclaimConfig(window.location.href);
+    const proofRequest = await ReclaimProofRequest.fromJsonString(
+      relcaimProofRequest
+    );
+    const requestUrl = await proofRequest.getRequestUrl();
+    console.log("requestUrl", requestUrl);
+
+    await proofRequest.startSession({
+      onSuccess: (proofs) => {
+        console.log("Verification success", proofs);
+      },
+      onError: (error) => {
+        console.error("Verification failed", error);
+      },
+    });
+    window.open(requestUrl, "_blank");
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit} className='w-2/3 space-y-6'>
@@ -171,9 +191,13 @@ const SellFormClient: React.FC = () => {
           )}
           <p className='text-sm text-gray-600 mt-1 text-center'>
             The ticket will be verified via zkProofs. Read more about it{" "}
-            <a href='#' className='underline'>
+            <button
+              type='button'
+              onClick={handleVerifyTicket}
+              className='underline'
+            >
               here
-            </a>
+            </button>
             .
           </p>
         </div>
