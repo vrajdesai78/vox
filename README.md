@@ -11,7 +11,7 @@ These issues are very common across India, especially in major cities during pop
 
 Along with all these technicalities, we want to abstract away some complexities that can benefit buyers and sellers to have a pleasant and non-overwhelming experience on Vox.
 
-*Deployed Contract Addresses (Testnets):*
+*Deployed Contract Addresses:*
 
 -   **Base Mainnet:** `<>`
 -   **Base Sepolia:** `<>`
