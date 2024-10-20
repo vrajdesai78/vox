@@ -6,7 +6,7 @@ import { CONTRACT_ABI, CONTRACT_ADDRESS } from "@/utils/contract";
 import { ReclaimProofRequest } from "@reclaimprotocol/js-sdk";
 import { createClient } from "@supabase/supabase-js";
 import { createPublicClient, formatUnits, http, parseUnits } from "viem";
-import { baseSepolia } from "viem/chains";
+import { base, baseSepolia } from "viem/chains";
 import sgMail from "@sendgrid/mail";
 
 export const getReclaimConfig = async (url: string) => {
@@ -188,7 +188,7 @@ export const getTicketbyId = async (ticketId: number) => {
 
 export const getActiveBids = async (user: string) => {
   const client = createPublicClient({
-    chain: baseSepolia,
+    chain: base,
     transport: http(),
   });
 

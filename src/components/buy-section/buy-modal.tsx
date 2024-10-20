@@ -178,7 +178,9 @@ const BuyModal: React.FC<BuyModalProps> = ({
                     console.log("Transaction error");
                   }}
                   isApprovalTx={true}
-                  approvalAmount={Number(parseEther("1000"))}
+                  approvalAmount={Number(
+                    parseEther(data?.[0].price.toString() ?? "500")
+                  )}
                   text='Buy Now'
                 />
                 <Link

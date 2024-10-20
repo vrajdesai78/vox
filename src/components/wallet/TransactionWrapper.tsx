@@ -8,6 +8,7 @@ import {
 import {
   Transaction,
   TransactionButton,
+  TransactionSponsor,
   TransactionStatus,
   TransactionStatusAction,
   TransactionStatusLabel,
@@ -21,7 +22,7 @@ import {
   type Address,
   type ContractFunctionParameters,
 } from "viem";
-import { baseSepolia } from "viem/chains";
+import { base, baseSepolia } from "viem/chains";
 
 interface TransactionWrapperProps {
   functionName: string;
@@ -73,8 +74,13 @@ export default function TransactionWrapper({
   return (
     <div className='flex '>
       <Transaction
+        capabilities={{
+          paymasterService: {
+            url: process.env.NEXT_PUBLIC_PAYMASTER_URL!,
+          },
+        }}
         contracts={contracts}
-        chainId={baseSepolia.id}
+        chainId={base.id}
         onError={handleError}
         onSuccess={onSuccess}
         onStatus={(status) => {
