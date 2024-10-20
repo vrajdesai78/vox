@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { baseSepolia } from "wagmi/chains";
 import { type ReactNode, useState } from "react";
 import { type State, WagmiProvider } from "wagmi";
+import { ToastContainer } from "react-toastify";
 
 import { getConfig } from "./wagmi";
 
@@ -20,6 +21,7 @@ export function Providers(props: { children: ReactNode }) {
           chain={baseSepolia}
         >
           {props.children}
+          <ToastContainer />
         </OnchainKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { recentlyAdded, sendEmail } from "@/app/_actions";
 import { parseEther } from "viem";
+import { toast } from "react-toastify";
 
 interface Show {
   date: string;
@@ -169,6 +170,7 @@ const BuyModal: React.FC<BuyModalProps> = ({
                   args={[data?.[0].eventId, data?.[0].ticketId]}
                   onSuccess={async () => {
                     console.log("Transaction success");
+                    toast.success("Ticket purchased successfully");
                     sendEmail(data?.[0].ticketUrl ?? "", email);
                     handleCheckout();
                   }}

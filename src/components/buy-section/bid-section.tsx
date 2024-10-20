@@ -126,13 +126,6 @@ const BidSection: React.FC<BidSectionProps> = ({
             </button>
           </div>
         </div>
-        {/* <button
-          className="w-full bg-gradient-to-b from-[#222222] to-[#111111] text-white py-3 rounded-md hover:bg-gray-800 transition-colors disabled:bg-gray-400 relative overflow-hidden"
-          onClick={handlePlaceBid}
-          disabled={isLoading || parseFloat(bidAmount) < selectedShow.price}
-        >
-          <span className="relative z-10">{isLoading ? "Placing a Bid.." : "Place Bid"}</span>
-        </button> */}
         {isConnected ? (
           <TransactionWrapper
             functionName='placeBid'
@@ -159,13 +152,15 @@ const BidSection: React.FC<BidSectionProps> = ({
           </ConnectWallet>
         )}
       </div>
-      <BidModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        event={event}
-        selectedShow={selectedShow}
-        bidAmount={bidAmount}
-      />
+      {isModalOpen && (
+        <BidModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          event={event}
+          selectedShow={selectedShow}
+          bidAmount={bidAmount}
+        />
+      )}
     </div>
   );
 };

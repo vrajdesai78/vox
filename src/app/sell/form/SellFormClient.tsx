@@ -11,6 +11,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { MapIcon } from "lucide-react";
 import { parseEther } from "viem";
 import lighthouse from "@lighthouse-web3/sdk";
+import { toast } from "react-toastify";
 
 const SellFormClient: React.FC = () => {
   const {
@@ -364,6 +365,7 @@ const SellFormClient: React.FC = () => {
                 ticketUrl: ticketUrl!,
               });
               router.push(`/sell/${eventDetails.title.toLowerCase()}`);
+              toast.success("Ticket listed successfully");
             }}
             onError={() => {
               console.log("Transaction error");

@@ -110,6 +110,16 @@ export const getEventDetails = async (name: string) => {
   return data as TEventDetails[];
 };
 
+export const getEventDetailsById = async (eventId: number) => {
+  const supabase = getClient();
+  const { data, error } = await supabase
+    .from("Concerts")
+    .select("*")
+    .eq("id", eventId);
+
+  return data?.[0] as TEventDetails;
+};
+
 export const getShows = async () => {
   try {
     const buyData = buy[0];
@@ -191,34 +201,49 @@ export const getActiveBids = async (user: string) => {
 
   console.log("activeBids", activeBids);
 
-  const ticket = await getTicketbyId(activeBids?.[1] as number);
-  const requestedPrice =
-    Number(formatUnits(activeBids?.[2] as bigint, 18)) * 84.06;
-  const formattedPrice = Number((ticket?.price * 84.06).toFixed(2));
+  const requests: Array<{
+    eventId: number;
+    ticketId: number;
+    yourPrice: number;
+    eventDate: string;
+    location: string;
+    requestedPrice: number;
+    bidRequester: string;
+    priceChange: number;
+    ticketUrl: string;
+  }> = [];
 
-  console.log("price", requestedPrice);
+  for (let i = 0; i < activeBids[0].length; i++) {
+    const eventId = Number(activeBids[0][i]);
+    const ticketId = Number(activeBids[1][i]);
+    const ticket = await getTicketbyId(ticketId);
+    const event = await getEventDetailsById(eventId);
+    const requestedPrice = Number(formatUnits(activeBids[2][i], 18)) * 84.06;
+    const formattedPrice = Number((ticket?.price * 84.06).toFixed(2));
 
-  const requests = {
-    coldplay: {
-      artist: "Coldplay",
-      event: "Music Festival",
-      eventId: ticket?.eventId,
-      ticketUrl: ticket?.ticketUrl,
-      ticketId: ticket?.ticketId,
-      location: "Mumbai",
-      date: "18th Jaunuary 2025",
-      yourPrice: formattedPrice,
-      requestedPrice: Number(requestedPrice.toFixed(2)),
-      bidRequester: activeBids?.[3][0],
-      priceChange: Number(
-        (
-          ((Number(requestedPrice) - formattedPrice) / formattedPrice) *
-          100
-        ).toFixed(2)
-      ),
-      imageSrc: "/profile/request.svg",
-    },
-  };
+    const priceChange = Number(
+      (((requestedPrice - formattedPrice) / formattedPrice) * 100).toFixed(2)
+    );
+
+    const date = new Date(event?.time).toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+
+    if (activeBids[3][i] >= 1)
+      requests.push({
+        eventId,
+        ticketId,
+        yourPrice: formattedPrice,
+        requestedPrice: Number(requestedPrice.toFixed(2)),
+        bidRequester: activeBids[3][i],
+        priceChange: priceChange,
+        ticketUrl: ticket?.ticketUrl ?? "",
+        eventDate: date,
+        location: event?.location,
+      });
+  }
 
   return requests;
 };
@@ -230,9 +255,30 @@ export const sendEmail = async (url: string, email?: string) => {
     from: "manav18gadhiya@gmail.com",
     to: email ?? "vrajdesai78@gmail.com",
     subject: "Turn up the heat, your coldplay ticket is here!",
-    html: `<p>Your ticket is ready to be claimed. Click on the link below to claim your ticket.
-    <a href=${url}>Get Ticket</a>
-    </p>`,
+    html: `
+    <html>
+      <body>
+        <h2>Hey 🎵</h2>
+        <p>Your Coldplay tickets are confirmed and secured through Vox! Get ready to experience "Music of the Spheres" live.</p>
+        
+        <p>📱 Your tickets have been added to your Vox wallet</p>
+        
+        <p>View your tickets: <a href=${url}>Click here</a></p>
+        
+        <h3>Important Notes:</h3>
+        <ul>
+          <li>Your tickets are secured via a smart contract escrow</li>
+          <li>Present the QR code from your Vox wallet at entry</li>
+          <li>Each ticket can only be scanned once</li>
+          <li>Bring a valid photo ID matching the ticket holder's name</li>
+        </ul>
+        
+        <p>Need help? We've got your back 24/7 at <a href="mailto:support@vox.com">support@vox.com</a></p>
+        
+        <p>See you at the show! 🎸</p>
+      </body>
+    </html>
+  `,
   };
 
   try {
