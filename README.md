@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Vox - A based, trustless and secure ticket reselling marketplace for India 🇮🇳
 
-## Getting Started
+![image](https://github.com/user-attachments/assets/d4c91a4c-c0c7-4ab5-b00b-a8c1b83a10f6)
 
-First, run the development server:
+---
+### Problem it Solves:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Many Indians have experienced the disappointment of being turned away at events due to fake tickets. High-demand events often lead to extreme price hikes in the resale market, pricing out many fans. When plans change, ticket holders often struggle to resell their tickets in a secure and legal manner that benefits both them and the buyer.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+These issues are very common across India, especially in major cities during popular events like IPL matches or international music tours or even regional festivals.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Along with all these technicalities, we want to abstract away some complexities that can benefit buyers and sellers to have a pleasant and non-overwhelming experience on Vox.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+*Deployed Contract Addresses (Testnets):*
 
-## Learn More
+-   **Base Mainnet:** `<>`
+-   **Base Sepolia:** `<>`
+ 
+---
 
-To learn more about Next.js, take a look at the following resources:
+## **Tech stack used**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Design: Figma <br />
+Tech: NextJS, TypeScript, Solidity, Coinbase, Base, Zustand
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Get Based with Vox! 💙
