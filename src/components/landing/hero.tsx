@@ -72,7 +72,7 @@ const Hero = () => {
         </div>
       </div>
       <div className="flex flex-col gap-10 lg:hidden pt-10">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-center gap-2">
           <div className="col-span-1 row-span-1">
             <HeroCard color="#CDFFAC" emoji="🎤" rotation="4deg" />
           </div>
