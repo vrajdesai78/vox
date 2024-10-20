@@ -1,26 +1,15 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
 
 const sliderData = [
   {
-    image: "/hero/slider-image.svg",
-    title: "Tom Sawyer",
-    location: "Ahmedabad",
-    date: "18th October",
-  },
-  {
-    image: "/hero/slider-image.svg",
-    title: "Event 2",
+    image: "/buy/coldplay.jpg",
+    title: "Coldplay",
     location: "Mumbai",
-    date: "25th October",
-  },
-  {
-    image: "/hero/slider-image.svg",
-    title: "Event 3",
-    location: "Delhi",
-    date: "1st November",
+    date: "18-21st January 2025",
   },
 ];
 
@@ -161,9 +150,12 @@ const ImageSlider: React.FC = () => {
                   </p>
                 </div>
                 <div className='pt-2'>
-                  <button className='bg-black text-white px-2 py-1 sm:px-3 sm:py-2 rounded-md text-xs sm:text-sm font-medium'>
+                  <Link
+                    href='/buy/coldplay'
+                    className='bg-black text-white px-2 py-1 sm:px-3 sm:py-2 rounded-md text-xs sm:text-sm font-medium'
+                  >
                     Buy tickets
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
