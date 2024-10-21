@@ -13,8 +13,7 @@ Along with all these technicalities, we want to abstract away some complexities 
 
 *Deployed Contract Addresses:*
 
--   **Base Mainnet:** `<>`
--   **Base Sepolia:** `<>`
+[Base Mainnet](https://basescan.org/address/0x41D53582fc417dC75169BB485493FE5E3Ad930Bb)
  
 ---
 
