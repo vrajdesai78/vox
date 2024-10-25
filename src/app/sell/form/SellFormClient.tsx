@@ -139,7 +139,7 @@ const SellFormClient: React.FC = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className='w-2/3 space-y-6'>
+      <form onSubmit={handleSubmit} className='w-full md:w-2/3 space-y-6 items-center'>
         <div className='bg-[#F7F7F7] p-2 rounded text-sm text-gray-600 border-[#D6D6D6] border-[1.5px] border-dashed'>
           NOTE: You can edit your tickets later!
         </div>
@@ -398,7 +398,7 @@ const SellFormClient: React.FC = () => {
           />
         )}
       </form>
-      <div className='w-1/3 font-bricolage'>
+      <div className='w-1/3 font-bricolage hidden md:flex md:flex-col'>
         <div className='p-4'>
           <div className='flex pb-4 justify-between items-center'>
             <h2 className='text-[32px] font-semibold'>{eventDetails.title}</h2>{" "}
