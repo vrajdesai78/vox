@@ -15,11 +15,16 @@ const SellGrid = () => {
   }, [fetchItems]);
 
   const handleCardClick = (title: string) => {
-    const slug = generateSlug(title);
-    router.push(`/sell/${slug}`);
+    const slug = generateSlug(title).replace(/\s+/g, "-");
+    router.push(`/sell/${slug.toLowerCase()}`);
   };
 
-  if (isLoading) return <div><Shimmer /></div>;
+  if (isLoading)
+    return (
+      <div>
+        <Shimmer />
+      </div>
+    );
   if (error) return <div>Error: {error}</div>;
 
   return (
