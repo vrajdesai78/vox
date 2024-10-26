@@ -122,39 +122,40 @@ export const getEventDetailsById = async (eventId: number) => {
 
 export const getShows = async () => {
   try {
-    const buyData = buy[0];
-    const formattedData = {
-      title: buyData.title,
-      bgImage: buyData.bgImage,
-      description: buyData.description,
-      location: buyData.location,
-      dateRange: buyData.dateRange,
-      trending: buyData.trending,
-      shows: buyData.shows.map(async (show, idx) => {
-        const showData = await getShowsByEventId(show.id);
-        return {
-          id: buyData.shows[idx].id,
-          ticketId: showData?.ticketId,
-          date: buyData.shows[idx].date,
-          day: buyData.shows[idx].day,
-          time: buyData.shows[idx].time,
-          price: Number((showData?.price * 84.06).toFixed(2)),
-          currency: buyData.shows[idx].currency,
-          bestSelling: buyData.shows[idx].bestSelling,
+    const formattedDataArray = await Promise.all(
+      buy.map(async (buyData) => {
+        const formattedData = {
+          title: buyData.title,
+          bgImage: buyData.bgImage,
+          description: buyData.description,
+          location: buyData.location,
+          dateRange: buyData.dateRange,
+          trending: buyData.trending,
+          shows: await Promise.all(
+            buyData.shows.map(async (show, idx) => {
+              const showData = await getShowsByEventId(show.id);
+              return {
+                id: buyData.shows[idx].id,
+                ticketId: showData?.ticketId,
+                date: buyData.shows[idx].date,
+                day: buyData.shows[idx].day,
+                time: buyData.shows[idx].time,
+                price: Number((showData?.price * 84.06).toFixed(2)),
+                currency: buyData.shows[idx].currency,
+                bestSelling: buyData.shows[idx].bestSelling,
+              };
+            })
+          ),
+          mostSoldTickets: buyData.mostSoldTickets,
+          otherLocations: buyData.otherLocations,
         };
-      }),
-      mostSoldTickets: buyData.mostSoldTickets,
-      otherLocations: buyData.otherLocations,
-    };
 
-    const resolvedShows = await Promise.all(formattedData.shows);
+        return formattedData;
+      })
+    );
 
-    const finalFormattedData = {
-      ...formattedData,
-      shows: resolvedShows,
-    };
-    console.log("finalFormatted", finalFormattedData);
-    return [finalFormattedData];
+    console.log("formattedDataArray", formattedDataArray);
+    return formattedDataArray;
   } catch (error) {
     console.error("Error fetching shows:", error);
     throw error;

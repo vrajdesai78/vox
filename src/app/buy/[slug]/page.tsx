@@ -30,6 +30,7 @@ const BuyItemPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
     if (items) {
       const getData = async () => {
         const shows = await getShows();
+        console.log("shows", shows);
         setItems(shows);
       };
       getData();
@@ -41,6 +42,7 @@ const BuyItemPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
       const foundItem = items.find(
         (item) => generateSlug(item.title) === params.slug
       );
+      console.log("foundItem", generateSlug(foundItem?.title || ""));
       setItem(foundItem || null);
     }
   }, [params.slug, items]);
@@ -51,7 +53,12 @@ const BuyItemPage: React.FC<{ params: { slug: string } }> = ({ params }) => {
     setIsModalOpen(true);
   };
 
-  if (!item) return <div><Shimmer /></div>;
+  if (!item)
+    return (
+      <div>
+        <Shimmer />
+      </div>
+    );
 
   return (
     <>

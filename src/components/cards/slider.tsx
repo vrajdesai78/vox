@@ -11,6 +11,12 @@ const sliderData = [
     location: "Mumbai",
     date: "18-21st January 2025",
   },
+  {
+    image: "/buy/dua-lipa.jpg",
+    title: "Dua Lipa",
+    location: "Mumbai",
+    date: "30th November 2024",
+  },
 ];
 
 const ImageSlider: React.FC = () => {

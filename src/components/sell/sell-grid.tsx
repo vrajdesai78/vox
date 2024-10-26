@@ -15,8 +15,8 @@ const SellGrid = () => {
   }, [fetchItems]);
 
   const handleCardClick = (title: string) => {
-    const slug = generateSlug(title).replace(/\s+/g, "-");
-    router.push(`/sell/${slug.toLowerCase()}`);
+    const slug = generateSlug(title);
+    router.push(`/sell/${slug}`);
   };
 
   if (isLoading)
